@@ -1,0 +1,4 @@
+intg1=86
+folder1=D:\TY7805\source code\Release\DEMO_20200630\PG_UI2\bin\Release\Debug\CaptureDebug_800
+intg2=114
+folder2=D:\TY7805\source code\Release\DEMO_20200630\PG_UI2\bin\Release\Debug\CaptureDebug_1023

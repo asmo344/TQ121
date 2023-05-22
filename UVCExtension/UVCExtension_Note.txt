@@ -1,0 +1,44 @@
+/* I2C Cmd R/W 
+deviceid for slave device addr.
+
+address[2] for register addr, if register addr = 0x1234,
+address[0]: low bytes, 0x34,
+addrsee[1]: high bytes, 0x12.
+
+value[1] for R/W value in byte.
+*/
+bool RegWrite(uint8_t deviceid, uint8_t *address, uint8_t *value);
+bool RegRead(uint8_t deviceid, uint8_t *address, uint8_t *value);
+
+/* SPI Cmd R/W 
+write:
+cmd = 0x02, CyFxSet16bit
+cmd = 0x03, CyFxSpiInit
+cmd = 0x04, erase MCU Spi flash
+*/
+bool WriteSPI(uint8_t cmd);
+bool ReadSPI(uint8_t* value);
+
+/* GPIO Cmd R/W
+write:
+cmd = 0x00, CyFxGpioInit
+cmd = 0x01, reset FPGA
+cmd = 0x03, erase FPGA Spi flash
+ */
+bool WriteFPGA(uint8_t cmd);
+bool ReadFPGA(uint8_t* value);
+
+/* send fpga code bin data 
+max tx data in byte[259]
+*/
+bool downloadFPGA(uint8_t *tx);
+
+/* Function    : FwVerGet
+Parameters  :
+value[0] - Build Year
+value[1] - Build month
+value[2] - Build day
+value[3] - Major version
+value[4] - Minor version
+*/
+bool FwVerGet(uint8_t *value);

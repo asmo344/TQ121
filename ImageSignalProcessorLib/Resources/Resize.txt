@@ -1,0 +1,7 @@
+// Nearest, Linear, Cubic, Area, Lanczos4, LinearExact
+Interpolation=Nearest
+Interpolation=Area
+Resolution=92x92
+Resolution=138x138
+Folder=D:\Tools\FingerPrinterTool\Data\03_finger_print\03_08
+Folder=D:\Tools\FingerPrinterTool\Data\03_finger_print\03_07

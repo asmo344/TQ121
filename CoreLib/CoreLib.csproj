@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E24D5745-692F-414E-9A6B-9E57C9C8E9F4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CoreLib</RootNamespace>
+    <AssemblyName>CoreLib</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CyUSB">
+      <HintPath>..\PG_UI2\CyUSB.dll</HintPath>
+    </Reference>
+    <Reference Include="DirectShowLib-2005">
+      <HintPath>Resources\DirectShow\DirectShowLib-2005.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.DebuggerVisualizers.VS2017">
+      <HintPath>Resources\Emgu\Emgu.CV.DebuggerVisualizers.VS2017.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.UI">
+      <HintPath>Resources\Emgu\Emgu.CV.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.UI.GL">
+      <HintPath>Resources\Emgu\Emgu.CV.UI.GL.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.World, Version=4.1.0.3420, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\Emgu\Emgu.CV.World.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.1.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.1.1\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ZedGraph">
+      <HintPath>Resources\Emgu\ZedGraph.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdbControl.cs" />
+    <Compile Include="CoreLib.cs" />
+    <Compile Include="Encrypt.cs" />
+    <Compile Include="EgisCaptureImageFlow.cs" />
+    <Compile Include="LedBrightness.cs" />
+    <Compile Include="LensShading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LensShading.Designer.cs">
+      <DependentUpon>LensShading.cs</DependentUpon>
+    </Compile>
+    <Compile Include="meanvaluemember.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RegionOfInterest.cs" />
+    <Compile Include="ReportCreator.cs" />
+    <Compile Include="ROI_Structure.cs" />
+    <Compile Include="T7805_EDR.cs" />
+    <Compile Include="T8820 NoiseMember.cs" />
+    <Compile Include="TY7868.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ImageSignalProcessorLib\ImageSignalProcessorLib.csproj">
+      <Project>{d28af134-ac01-4e82-b002-21adc6ed5824}</Project>
+      <Name>ImageSignalProcessorLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JIG_BOX\JIG_BOX.vcxproj">
+      <Project>{8b3759e8-de0b-4e4e-84e6-5d0ca5259083}</Project>
+      <Name>JIG_BOX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MipiOnlyLib\MipiOnlyLib.vcxproj">
+      <Project>{90e82bc6-85e7-4a5c-8476-ddf511b55e2c}</Project>
+      <Name>MipiOnlyLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NoiseLib\NoiseLib.csproj">
+      <Project>{f8c1c569-51f8-4583-aa19-3e6b11348c92}</Project>
+      <Name>NoiseLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpticalSensor\optical_sensor.vcxproj">
+      <Project>{4a74de4d-4226-43ef-ad6b-cbcc7d9b25e6}</Project>
+      <Name>OpticalSensor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PG_ISP\PG_ISP.vcxproj">
+      <Project>{748fb473-5223-4901-a8cb-cfe9bbfe44a7}</Project>
+      <Name>PG_ISP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\System.Extension\System.Extension.csproj">
+      <Project>{7f70bde2-d422-4829-acc5-222d8b4831f9}</Project>
+      <Name>System.Extension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TyrafosLibrary\TyrafosLibrary.csproj">
+      <Project>{02caf8e2-6a15-41f2-8a8c-b434caa3b6f9}</Project>
+      <Name>TyrafosLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UVCExtension\UVCExtension.vcxproj">
+      <Project>{36f2f583-0e81-4e0f-bfcf-dad972ec1166}</Project>
+      <Name>UVCExtension</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="LensShading.resx">
+      <DependentUpon>LensShading.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Resources\adb.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AdbWinApi.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AdbWinUsbApi.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

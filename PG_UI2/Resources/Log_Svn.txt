@@ -1,0 +1,911 @@
+Revision: 1819
+Author: felix_ching
+Date: 2022年8月22日 下午 06:31:22
+Version: 1.36
+Item: Bug Fixed
+Message:
+Fix the bug of Shmoo Test
+----
+Revision: 1817
+Author: felix_ching
+Date: 2022年8月18日 下午 06:04:42
+Version: 1.36
+Item: Add Function
+Message:
+Implement GetSplitID
+----
+Revision: 1816
+Author: felix_ching
+Date: 2022年8月18日 下午 06:03:32
+Version: 1.36
+Item: Add Function
+Message:
+1. Add Function "Avdd Detect" for JB
+2. Shmoo support "AVDD Detect"
+Avdd Detect : 
+WriteRegister(0, 0x6E, 034);
+WriteRegister(0, 0x6E, 036);
+----
+Revision: 1815
+Author: felix_ching
+Date: 2022年8月18日 下午 03:52:12
+Version: 1.36
+Item: Add Function
+Message:
+Implement Test Item 28.A "Capture frame in frame mode with burst length switching from 1 to N"
+----
+Revision: 1810
+Author: leo_li
+Date: 2022年8月13日 下午 02:16:33
+Version: 1.36
+Item: Add Function
+Message:
+新增使用fx3 fifo sync的usb stream功能
+----
+Revision: 1809
+Author: yian_su
+Date: 2022年8月12日 下午 06:20:51
+Version: 1.36
+Item: Add Function
+Message:
+Add 1.ECLForm.cs 2.ECLNewFlowForm.cs to Project.
+----
+Revision: 1796
+Author: felix_ching
+Date: 2022年7月26日 下午 01:01:21
+Version: 1.35
+Item: Edited
+Message:
+1. PX to PX STDEV : Save CSV
+2. Modify "Ofst vs DN" Limit
+3. Fixed the bug of file name
+----
+Revision: 1792
+Author: felix_ching
+Date: 2022年7月25日 下午 07:56:06
+Version: 1.35
+Item: Edited
+Message:
+Edit "Layout of MainForm : VersionControl"
+----
+Revision: 1791
+Author: felix_ching
+Date: 2022年7月25日 下午 07:41:11
+Version: 1.35
+Item: Bug Fixed
+Message:
+Disable adb server
+----
+Revision: 1790
+Author: felix_ching
+Date: 2022年7月25日 下午 07:35:13
+Version: 1.35
+Item: Add Function
+Message:
+Support Auto Test : Ofst vs Dn
+----
+Revision: 1786
+Author: yian_su
+Date: 2022年7月21日 下午 01:27:06
+Version: 1.35
+Item: Add Function
+Message:
+Add VersionControl.cs to project.
+----
+Revision: 1784
+Author: yian_su
+Date: 2022年7月19日
+Version: 1.35
+Item: Edited
+Message:
+MainForm => Engineer Menu Item UI Updated.
+----
+Revision: 1782
+Author: yian_su
+Date: 2022年7月19日
+Version: 1.35
+Item: Edited
+Message:
+Add Optional variable on t7806.GetExposureMillisecond function.
+----
+Revision: 1780
+Author: felix_ching
+Date: 2022年7月19日
+Version: 1.34
+Item: Edited
+Message:
+Update Software Version
+----
+Revision: 1779
+Author: felix_ching
+Date: 2022年7月19日
+Version: 1.34
+Item: Add Function
+Message:
+1. Support new flag(HardwareVersion/IOVDD) on config
+2. Modify auto otp write base on different hardware version (JA/JB)
+3. Update new config
+----
+Revision: 1770
+Author: yian_su
+Date: 2022年7月15日
+Version: 1.34
+Item: Bug Fixed
+Message:
+SNR Calculate.cs => Fixed issue # T7806 Set Burstlen
+----
+Revision: 1769
+Author: yian_su
+Date: 2022年7月15日
+Version: 1.34
+Item: Bug Fixed
+Message:
+Sensitivity.cs => Bug Fixed issue #
+----
+Revision: 1768
+Author: yian_su
+Date: 2022年7月15日
+Version: 1.34
+Item: Edited
+Message:
+FingerId.cs => For 7806 And Updated AdbControl.cs.
+----
+Revision: 1767
+Author: yian_su
+Date: 2022年7月15日
+Version: 1.34
+Item: Add Function
+Message:
+Add StrongLight.cs to Project.
+----
+Revision: 1692
+Author: leo_li
+Date: 2022年7月4日
+Version: Previous
+Item: 
+Message:
+fix t8820 streaming image error
+----
+Revision: 1691
+Author: leo_li
+Date: 2022年7月4日
+Version: Previous
+Item: 
+Message:
+add null protect
+----
+Revision: 1690
+Author: leo_li
+Date: 2022年7月4日 上午 11:09:17
+Version: Previous
+Item: 
+Message:
+update t7806 relibility flow
+----
+Revision: 1689
+Author: leo_li
+Date: 2022年7月4日 上午 11:09:08
+Version: Previous
+Item: 
+Message:
+make user experience more friendly
+----
+Revision: 1688
+Author: leo_li
+Date: 2022年7月4日 上午 11:08:57
+Version: Previous
+Item: 
+Message:
+make user interface more friendly
+----
+Revision: 1687
+Author: leo_li
+Date: 2022年7月4日 上午 11:08:46
+Version: Previous
+Item: 
+Message:
+restore background image
+----
+Revision: 1686
+Author: leo_li
+Date: 2022年7月4日 上午 11:08:36
+Version: Previous
+Item: 
+Message:
+try to stability streaming image
+----
+Revision: 1685
+Author: leo_li
+Date: 2022年7月4日 上午 11:08:27
+Version: Previous
+Item: 
+Message:
+make user experience friendly
+----
+Revision: 1684
+Author: leo_li
+Date: 2022年7月4日 上午 11:08:19
+Version: Previous
+Item: 
+Message:
+fix wrong format of csv file
+----
+Revision: 1683
+Author: leo_li
+Date: 2022年7月4日 上午 11:08:06
+Version: Previous
+Item: 
+Message:
+1. support standard deviation and variance pixel to pixel calculation.
+2. support histogram file save option.
+----
+Revision: 1682
+Author: leo_li
+Date: 2022年7月4日 上午 11:07:46
+Version: Previous
+Item: 
+Message:
+add ignore file for git
+----
+Revision: 1666
+Author: felix_ching
+Date: 2022年6月22日 下午 02:34:39
+Version: Previous
+Item: 
+Message:
+Modify OTP Sweep UI
+----
+Revision: 1665
+Author: yian_su
+Date: 2022年6月22日 下午 02:18:26
+Version: Previous
+Item: 
+Message:
+ElectricalItemForT7806Form.cs => Otp sweep test,fix first read all otp register bug.
+----
+Revision: 1664
+Author: yian_su
+Date: 2022年6月22日 上午 11:19:41
+Version: Previous
+Item: 
+Message:
+(1)ElectricalItemForT7806Form.cs => Add OTP Sweep Avdd Test.
+----
+Revision: 1662
+Author: felix_ching
+Date: 2022年6月14日 上午 11:42:01
+Version: Previous
+Item: 
+Message:
+1. Add OTP CP GUI
+2. Fix the bug of continue OTP R/W 
+----
+Revision: 1661
+Author: yian_su
+Date: 2022年6月9日 下午 05:35:58
+Version: Previous
+Item: 
+Message:
+AutomatedTest.cs => fixed input power supply commend line bug.
+----
+Revision: 1659
+Author: yian_su
+Date: 2022年6月7日 下午 06:23:39
+Version: Previous
+Item: 
+Message:
+7806 AutomatedTest.cs => add Avdd set from high to low.
+----
+Revision: 1632
+Author: leo_li
+Date: 2022年5月17日 下午 02:35:41
+Version: Previous
+Item: 
+Message:
+1. fix characteristic test unstable image quality issue
+----
+Revision: 1631
+Author: leo_li
+Date: 2022年5月12日 下午 02:05:42
+Version: Previous
+Item: 
+Message:
+1. support more chip id of T8820
+----
+Revision: 1630
+Author: leo_li
+Date: 2022年5月12日 上午 10:51:09
+Version: Previous
+Item: 
+Message:
+1. fix wrong RAW64REAL file save format at characteristic loop test
+----
+Revision: 1626
+Author: felix_ching
+Date: 2022年5月10日 下午 06:51:35
+Version: Previous
+Item: 
+Message:
+update config
+----
+Revision: 1625
+Author: felix_ching
+Date: 2022年5月10日 下午 06:35:49
+Version: Previous
+Item: 
+Message:
+1. Fix CharacteristicTest unstable issue
+2. Modify Format of file name
+----
+Revision: 1624
+Author: leo_li
+Date: 2022年5月10日 下午 02:12:48
+Version: Previous
+Item: 
+Message:
+update firmware version
+----
+Revision: 1621
+Author: leo_li
+Date: 2022年5月10日 上午 11:11:11
+Version: Previous
+Item: 
+Message:
+1. Add T7806 reliability function
+----
+Revision: 1618
+Author: yian_su
+Date: 2022年5月6日 下午 05:43:28
+Version: Previous
+Item: 
+Message:
+Fix ImageDisplayForm.cs bug => Image can't show on PictureBox.
+----
+Revision: 1613
+Author: felix_ching
+Date: 2022年4月27日 下午 03:51:40
+Version: Previous
+Item: 
+Message:
+Modify test item "Reg Sweep"
+----
+Revision: 1610
+Author: felix_ching
+Date: 2022年4月26日 下午 05:26:56
+Version: Previous
+Item: 
+Message:
+Update logo
+----
+Revision: 1602
+Author: ty_tsai
+Date: 2022年4月22日 下午 06:10:21
+Version: Previous
+Item: 
+Message:
+Reg scan
+----
+Revision: 1590
+Author: felix_ching
+Date: 2022年4月15日 下午 06:24:47
+Version: Previous
+Item: 
+Message:
+1. Modify the bug of "Sensor Resolution Detect"
+----
+Revision: 1589
+Author: felix_ching
+Date: 2022年4月14日 下午 08:23:56
+Version: Previous
+Item: 
+Message:
+
+----
+Revision: 1588
+Author: felix_ching
+Date: 2022年4月14日 下午 08:19:41
+Version: Previous
+Item: 
+Message:
+Support cfg burst write
+----
+Revision: 1587
+Author: ty_tsai
+Date: 2022年4月14日 下午 07:07:34
+Version: Previous
+Item: 
+Message:
+Reg scan update
+----
+Revision: 1586
+Author: felix_ching
+Date: 2022年4月14日 下午 02:38:32
+Version: Previous
+Item: 
+Message:
+Modify the Calculation of case 8 pixels
+----
+Revision: 1585
+Author: felix_ching
+Date: 2022年4月14日 下午 02:32:06
+Version: Previous
+Item: 
+Message:
+Fix "DDS ON-CHIP"
+----
+Revision: 1582
+Author: ty_tsai
+Date: 2022年4月13日 下午 06:45:07
+Version: Previous
+Item: 
+Message:
+Add Reg Scan log
+----
+Revision: 1581
+Author: felix_ching
+Date: 2022年4月13日 上午 11:42:46
+Version: Previous
+Item: 
+Message:
+Fix Tcon Rst Test Issue
+----
+Revision: 1580
+Author: felix_ching
+Date: 2022年4月13日 上午 10:50:02
+Version: Previous
+Item: 
+Message:
+
+----
+Revision: 1579
+Author: felix_ching
+Date: 2022年4月13日 上午 10:41:45
+Version: Previous
+Item: 
+Message:
+
+----
+Revision: 1578
+Author: felix_ching
+Date: 2022年4月13日 上午 10:39:38
+Version: Previous
+Item: 
+Message:
+Fix the bug of RingCount
+----
+Revision: 1573
+Author: felix_ching
+Date: 2022年4月12日 下午 02:39:53
+Version: Previous
+Item: 
+Message:
+Modify Tcon Reset Test Flow
+(Add Workaround of TconRst)
+----
+Revision: 1572
+Author: felix_ching
+Date: 2022年4月12日 下午 02:38:31
+Version: Previous
+Item: 
+Message:
+Fix the bug of Roi Mean Test
+----
+Revision: 1571
+Author: felix_ching
+Date: 2022年4月12日 下午 02:36:14
+Version: Previous
+Item: 
+Message:
+Fix the bug of Roi Mean Test
+----
+Revision: 1570
+Author: yian_su
+Date: 2022年4月12日 下午 12:03:03
+Version: Previous
+Item: 
+Message:
+TY7806Test.cs Line_frame_Test add sub height flow. 
+----
+Revision: 1566
+Author: felix_ching
+Date: 2022年4月11日 下午 02:50:20
+Version: Previous
+Item: 
+Message:
+Disable interrupt Function
+----
+Revision: 1565
+Author: felix_ching
+Date: 2022年4月11日 下午 01:42:47
+Version: Previous
+Item: 
+Message:
+Fix bug of FootPacketCheck
+----
+Revision: 1564
+Author: felix_ching
+Date: 2022年4月11日 下午 12:48:52
+Version: Previous
+Item: 
+Message:
+Modify FootPacket Test
+----
+Revision: 1563
+Author: felix_ching
+Date: 2022年4月11日 上午 10:10:57
+Version: Previous
+Item: 
+Message:
+Fix the bug if DDS flow
+----
+Revision: 1562
+Author: leo_li
+Date: 2022年4月8日 下午 05:06:55
+Version: Previous
+Item: 
+Message:
+1. fixed issue that capture image fail would not release mutex
+2. fixed issue that bank1, 0x70 read back data will be modify by OTP
+----
+Revision: 1556
+Author: felix_ching
+Date: 2022年4月8日 上午 10:35:18
+Version: Previous
+Item: 
+Message:
+
+----
+Revision: 1555
+Author: yian_su
+Date: 2022年4月7日 下午 07:04:19
+Version: Previous
+Item: 
+Message:
+TY7806Test.cs Add Frame/Line Mode Test.
+----
+Revision: 1553
+Author: felix_ching
+Date: 2022年4月7日 下午 02:30:28
+Version: Previous
+Item: 
+Message:
+Fix the bug of "Temp Cali Test"
+----
+Revision: 1550
+Author: felix_ching
+Date: 2022年4月6日 下午 07:46:51
+Version: Previous
+Item: 
+Message:
+Update new Config for lower sleep power
+----
+Revision: 1549
+Author: felix_ching
+Date: 2022年4月6日 下午 07:43:05
+Version: Previous
+Item: 
+Message:
+
+----
+Revision: 1548
+Author: leo_li
+Date: 2022年4月6日 下午 02:02:44
+Version: Previous
+Item: 
+Message:
+1. fixed out of memory issue
+2. fixed multi thread crash issue
+----
+Revision: 1547
+Author: felix_ching
+Date: 2022年4月5日 下午 07:01:33
+Version: Previous
+Item: 
+Message:
+Implement the function of "rpt_spi_rdo_len"
+----
+Revision: 1546
+Author: felix_ching
+Date: 2022年4月5日 下午 05:49:18
+Version: Previous
+Item: 
+Message:
+Modify the function of FootPacket
+----
+Revision: 1545
+Author: felix_ching
+Date: 2022年4月5日 下午 02:40:24
+Version: Previous
+Item: 
+Message:
+Optimal the flow of "Captrue Frame"
+----
+Revision: 1544
+Author: leo_li
+Date: 2022年4月2日 下午 02:06:41
+Version: Previous
+Item: 
+Message:
+
+----
+Revision: 1537
+Author: felix_ching
+Date: 2022年3月31日 下午 02:41:29
+Version: Previous
+Item: 
+Message:
+Add Otp Test
+----
+Revision: 1536
+Author: felix_ching
+Date: 2022年3月31日 下午 02:18:12
+Version: Previous
+Item: 
+Message:
+1. Update new config 20220330
+2. Modify Gain Setting for new config 20220330
+----
+Revision: 1535
+Author: felix_ching
+Date: 2022年3月31日 下午 02:10:46
+Version: Previous
+Item: 
+Message:
+Add Otp Test
+----
+Revision: 1534
+Author: felix_ching
+Date: 2022年3月30日 上午 11:24:40
+Version: Previous
+Item: 
+Message:
+Modify CRC Test Item
+----
+Revision: 1533
+Author: ty_tsai
+Date: 2022年3月29日 下午 02:43:07
+Version: Previous
+Item: 
+Message:
+
+----
+Revision: 1532
+Author: leo_li
+Date: 2022年3月29日 上午 10:40:27
+Version: Previous
+Item: 
+Message:
+
+----
+Revision: 1531
+Author: leo_li
+Date: 2022年3月29日 上午 10:24:30
+Version: Previous
+Item: 
+Message:
+1. optimize polling image speed
+----
+Revision: 1530
+Author: felix_ching
+Date: 2022年3月28日 下午 09:18:56
+Version: Previous
+Message:
+skip 4 frames to get stable image
+----
+Revision: 1529
+Author: felix_ching
+Date: 2022年3月28日 下午 09:11:41
+Version: Previous
+Item: 
+Message:
+Add DDs Flow
+----
+Revision: 1527
+Author: felix_ching
+Date: 2022年3月28日 下午 01:29:11
+Version: Previous
+Item: 
+Message:
+Add Test item 7.4
+----
+Revision: 1522
+Author: felix_ching
+Date: 2022年3月25日 上午 11:52:15
+Version: Previous
+Item: 
+Message:
+1. Fix "Data Format Test"
+2. Fix Shmoo test
+----
+Revision: 1517
+Author: felix_ching
+Date: 2022年3月24日 上午 11:04:12
+Version: Previous
+Item: 
+Message:
+
+----
+Revision: 1516
+Author: felix_ching
+Date: 2022年3月24日 上午 12:13:45
+Version: Previous
+Item: 
+Message:
+1. Fix "Power Rst Test"
+2. Fix "SPI Test"
+3. Fix "Tcon Rest Test"
+4. Fix "expo time error"
+5. Support IOVDD 1.8v
+----
+Revision: 1514
+Author: felix_ching
+Date: 2022年3月22日 下午 08:05:49
+Version: Previous
+Item: 
+Message:
+1. Fix bug of "CRC Test"
+2. Fix bug of "Gain Set"
+----
+Revision: 1497
+Author: felix_ching
+Date: 2022年3月21日 下午 09:23:57
+Version: Previous
+Item: 
+Message:
+Update new config
+----
+Revision: 1496
+Author: felix_ching
+Date: 2022年3月21日 下午 09:16:25
+Version: Previous
+Item: 
+Message:
+1. Modify OTP Read/Write
+2. Fix Issue "Get Image file"
+----
+Revision: 1495
+Author: felix_ching
+Date: 2022年3月21日 下午 07:31:24
+Version: Previous
+Item: 
+Message:
+Update value after read Register
+----
+Revision: 1493
+Author: felix_ching
+Date: 2022年3月18日 下午 12:02:31
+Version: Previous
+Item: 
+Message:
+1. Workaround : Capture Image Error
+2. Fix Some Bug
+----
+Revision: 1491
+Author: felix_ching
+Date: 2022年3月15日 下午 08:51:35
+Version: Previous
+Item: 
+Message:
+Implement Ofst & Efuse Read/Write
+----
+Revision: 1490
+Author: felix_ching
+Date: 2022年3月15日 下午 02:13:46
+Version: Previous
+Item: 
+Item: Add Function
+Message:
+Implement "Tcon Software Reset" Test
+----
+Revision: 1489
+Author: felix_ching
+Date: 2022年3月14日 下午 06:28:12
+Version: Previous
+Message:
+
+----
+Revision: 1487
+Author: leo_li
+Date: 2022年3月11日 下午 03:25:18
+Version: Previous
+Item: 
+Message:
+1.implement T7806 expo full range test
+----
+Revision: 1486
+Author: yian_su
+Date: 2022年3月10日 下午 06:38:23
+Version: Previous
+Item: 
+Message:
+TY7806Test.cs Remove mark.
+----
+Revision: 1485
+Author: yian_su
+Date: 2022年3月10日 下午 06:27:45
+Version: Previous
+Item: 
+Message:
+TY7806Test.cs => Add Frame Mode 8bit / 10bit flow.
+----
+Revision: 1484
+Author: yian_su
+Date: 2022年3月9日 下午 02:20:17
+Version: Previous
+Item: 
+Message:
+TY7806Test.cs => Add PixelFormatData test flow.
+----
+Revision: 1483
+Author: ty_tsai
+Date: 2022年3月9日 上午 10:48:14
+Version: Previous
+Item: 
+Message:
+1.Optimize Register Scan special command
+----
+Revision: 1482
+Author: felix_ching
+Date: 2022年3月8日 下午 05:39:51
+Version: Previous
+Item: 
+Message:
+Implement AVDD_CALI_TEST
+----
+Revision: 1481
+Author: felix_ching
+Date: 2022年3月7日 下午 02:26:37
+Version: Previous
+Item: 
+Message:
+1. Implement Power On Reset Test
+2. Implement AVDD/Temp/OSC Cali
+----
+Revision: 1480
+Author: yian_su
+Date: 2022年3月4日 下午 06:42:09
+Version: Previous
+Item: 
+Message:
+TY7806Test.cs => UPDATE Interface-SPI Flow.
+----
+Revision: 1479
+Author: leo_li
+Date: 2022年3月4日 上午 09:26:46
+Version: Previous
+Item: 
+Message:
+1. STM32F723 FW Release V1.21
+----
+Revision: 1478
+Author: leo_li
+Date: 2022年3月4日 上午 12:18:21
+Version: Previous
+Item: 
+Message:
+1. implement register scan, footpacket test and intg full range test at TY7806Test
+----
+Revision: 1477
+Author: yian_su
+Date: 2022年3月3日 下午 05:24:33
+Version: Previous
+Item: 
+Message:
+Fixed Tyrafos.Algorithm.Composite.TryToSubBackByPixels parameter bug.
+----
+Revision: 1476
+Author: yian_su
+Date: 2022年3月3日 下午 05:14:29
+Version: Previous
+Item: 
+Message:
+Add 7806 off/on chip DDS Flow.
+----
+Revision: 1475
+Author: felix_ching
+Date: 2022年3月3日 下午 12:14:56
+Version: Previous
+Item: 
+Message:
+
+----

@@ -1,0 +1,19 @@
+; optical_sensor.def : Declares the module parameters for the DLL.
+
+LIBRARY      "OpticalSensor"
+
+EXPORTS
+    ; Explicit exports can go here
+		OpenFPSSensorDevice                 @3
+		WriteOneCISRegister                 @4
+		ReadOneCISRegister                  @5
+		
+		ReadFullImageData                   @6 
+		StartCaptureImage                   @7
+		ReadECFAOneCISRegister              @8
+		WriteECFAOneCISRegister             @9
+		CheckDataReady                      @10
+		GetImageAE                          @11
+
+		WriteTY7868Register                 @12
+		ReadTY7868Register                  @13

@@ -1,0 +1,967 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{875482E7-5CE1-48F6-A973-7D8AEA0483CC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PG_UI2</RootNamespace>
+    <AssemblyName>PG_UI2</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>D:\Deploy\YINS\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>FA759B5D4BEB6D5C2FC1D0AF9B3242C0147E4381</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>PG_UI2_1_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AForge">
+      <HintPath>Resources\AForge\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Controls">
+      <HintPath>Resources\AForge\AForge.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.DebuggerVisualizers %282010%29">
+      <HintPath>Resources\AForge\AForge.DebuggerVisualizers (2010).dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Fuzzy">
+      <HintPath>Resources\AForge\AForge.Fuzzy.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Genetic">
+      <HintPath>Resources\AForge\AForge.Genetic.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging">
+      <HintPath>Resources\AForge\AForge.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging.Formats">
+      <HintPath>Resources\AForge\AForge.Imaging.Formats.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging.IPPrototyper">
+      <HintPath>Resources\AForge\AForge.Imaging.IPPrototyper.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.MachineLearning">
+      <HintPath>Resources\AForge\AForge.MachineLearning.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Math">
+      <HintPath>Resources\AForge\AForge.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Neuro">
+      <HintPath>Resources\AForge\AForge.Neuro.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Robotics.Lego">
+      <HintPath>Resources\AForge\AForge.Robotics.Lego.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Robotics.Surveyor">
+      <HintPath>Resources\AForge\AForge.Robotics.Surveyor.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Robotics.TeRK">
+      <HintPath>Resources\AForge\AForge.Robotics.TeRK.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video">
+      <HintPath>Resources\AForge\AForge.Video.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.DirectShow">
+      <HintPath>Resources\AForge\AForge.Video.DirectShow.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.FFMPEG">
+      <HintPath>Resources\AForge\AForge.Video.FFMPEG.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.Kinect">
+      <HintPath>Resources\AForge\AForge.Video.Kinect.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.VFW">
+      <HintPath>Resources\AForge\AForge.Video.VFW.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.Ximea">
+      <HintPath>Resources\AForge\AForge.Video.Ximea.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Vision">
+      <HintPath>Resources\AForge\AForge.Vision.dll</HintPath>
+    </Reference>
+    <Reference Include="AxInterop.ZOLIXOMNISPECLib">
+      <HintPath>Resources\AxInterop.ZOLIXOMNISPECLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ClosedXML, Version=0.95.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.95.3\lib\net40\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="CyUSB">
+      <HintPath>.\CyUSB.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.DebuggerVisualizers.VS2017">
+      <HintPath>Resources\Emgu\Emgu.CV.DebuggerVisualizers.VS2017.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.UI">
+      <HintPath>Resources\Emgu\Emgu.CV.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.UI.GL">
+      <HintPath>Resources\Emgu\Emgu.CV.UI.GL.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.World">
+      <HintPath>Resources\Emgu\Emgu.CV.World.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.1.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.1.1\lib\net40\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.0.10.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelNumberFormat.1.0.10\lib\net20\ExcelNumberFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.ZOLIXOMNISPECLib">
+      <HintPath>Resources\Interop.ZOLIXOMNISPECLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Ivi.Visa, Version=5.11.0.0, Culture=neutral, PublicKeyToken=a128c98f1d7717c1, processorArchitecture=MSIL" />
+    <Reference Include="Keysight.Visa, Version=18.1.0.0, Culture=neutral, PublicKeyToken=7a01cdb2a9131f73, processorArchitecture=MSIL" />
+    <Reference Include="MathNet.Numerics, Version=4.15.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.4.15.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroFramework.RunTime.1.2.0.3\lib\net40-Client\MetroFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MetroFramework.Design, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroFramework.Design.1.2.0.3\lib\net40\MetroFramework.Design.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MetroFramework.Fonts, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroFramework.Fonts.1.2.0.3\lib\net40\MetroFramework.Fonts.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="PbLibraryR08">
+      <HintPath>Resources\EnrollVerify\PbLibraryR08.dll</HintPath>
+    </Reference>
+    <Reference Include="PbLibraryR11">
+      <HintPath>Resources\EnrollVerify\PbLibraryR11.dll</HintPath>
+    </Reference>
+    <Reference Include="PreProcesslib, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\PreProcesslib.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleExcel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Panda.SimpleExcel.1.3.2\lib\SimpleExcel.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Messaging" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ZedGraph">
+      <HintPath>Resources\Emgu\ZedGraph.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CFPN_Test.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CFPN_Test.Designer.cs">
+      <DependentUpon>CFPN_Test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Channel Imbalance Analysis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Channel Imbalance Analysis.designer.cs">
+      <DependentUpon>Channel Imbalance Analysis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CharacteristicCompareForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CharacteristicCompareForm.Designer.cs">
+      <DependentUpon>CharacteristicCompareForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CharacteristicTest\CharacteristicTest.PartCRA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CharacteristicTest\CharacteristicTest.PartQE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CharacteristicTest\CharacteristicTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CharacteristicTest\CharacteristicTestForm.Designer.cs">
+      <DependentUpon>CharacteristicTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CharacteristicTest\ChiefRayAngleBoxControl.cs" />
+    <Compile Include="CharacteristicTest\PTCLightSourceControl.cs" />
+    <Compile Include="CharacteristicTest\QuantumEfficiencyBoxControl.cs" />
+    <Compile Include="CharacteristicTest\XYZStepMotorControl.cs" />
+    <Compile Include="DataFlow.cs" />
+    <Compile Include="DataFlowForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataFlowForm.Designer.cs">
+      <DependentUpon>DataFlowForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DDS_Parameter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DDS_Parameter.designer.cs">
+      <DependentUpon>DDS_Parameter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DothinkeyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DothinkeyForm.Designer.cs">
+      <DependentUpon>DothinkeyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DvsOfflineShowForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DvsOfflineShowForm.designer.cs">
+      <DependentUpon>DvsOfflineShowForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DVSShowForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DVSShowForm.designer.cs">
+      <DependentUpon>DVSShowForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DVS_set.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DVS_set.designer.cs">
+      <DependentUpon>DVS_set.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ECLForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ECLForm.designer.cs">
+      <DependentUpon>ECLForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ECLNewFlowForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ECLNewFlowForm.designer.cs">
+      <DependentUpon>ECLNewFlowForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HistogramForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HistogramForm.designer.cs">
+      <DependentUpon>HistogramForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImageDisplayForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImageDisplayForm.designer.cs">
+      <DependentUpon>ImageDisplayForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImageShowForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImageShowForm.Designer.cs">
+      <DependentUpon>ImageShowForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MeanCurve.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MeanCurve.designer.cs">
+      <DependentUpon>MeanCurve.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MeanValueTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MeanValueTest.designer.cs">
+      <DependentUpon>MeanValueTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MTF_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MTF_Form.designer.cs">
+      <DependentUpon>MTF_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OptionForm.Designer.cs">
+      <DependentUpon>OptionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ParallelTimingMeasurement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ParallelTimingMeasurement.Designer.cs">
+      <DependentUpon>ParallelTimingMeasurement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProcessKiller.cs" />
+    <Compile Include="ProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProgressForm.designer.cs">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SensorRegisterByChip\SensorRegisterForTQ121JAForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SensorRegisterByChip\SensorRegisterForTQ121JAForm.Designer.cs">
+      <DependentUpon>SensorRegisterForTQ121JAForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegionOfInterest.cs" />
+    <Compile Include="RegionOfInterestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegionOfInterestForm.Designer.cs">
+      <DependentUpon>RegionOfInterestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReliabilityTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReliabilityTestForm.designer.cs">
+      <DependentUpon>ReliabilityTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ROI_table.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ROI_table.designer.cs">
+      <DependentUpon>ROI_table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sensitivity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sensitivity.Designer.cs">
+      <DependentUpon>Sensitivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SensorRegisterByChip\SensorRegisterForT2001JAForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SensorRegisterByChip\SensorRegisterForT2001JAForm.designer.cs">
+      <DependentUpon>SensorRegisterForT2001JAForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SensorRegisterByChip\SensorRegisterForT7806Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SensorRegisterByChip\SensorRegisterForT7806Form.Designer.cs">
+      <DependentUpon>SensorRegisterForT7806Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SensorRegisterByChip\SensorRegisterForT7805Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SensorRegisterByChip\SensorRegisterForT7805Form.Designer.cs">
+      <DependentUpon>SensorRegisterForT7805Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SensorRegisterByChip\SensorRegisterForGC02M1Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SensorRegisterByChip\SensorRegisterForGC02M1Form.Designer.cs">
+      <DependentUpon>SensorRegisterForGC02M1Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SensorRegisterByChip\SensorRegisterForT8820Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SensorRegisterByChip\SensorRegisterForT8820Form.Designer.cs">
+      <DependentUpon>SensorRegisterForT8820Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SensorRegisterMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SensorRegisterMainForm.designer.cs">
+      <DependentUpon>SensorRegisterMainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SNR Calculate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SNR Calculate.designer.cs">
+      <DependentUpon>SNR Calculate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StrongLight.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StrongLight.designer.cs">
+      <DependentUpon>StrongLight.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SW_ISP_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SW_ISP_Form.Designer.cs">
+      <DependentUpon>SW_ISP_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="T7805Timing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="T7805Timing.designer.cs">
+      <DependentUpon>T7805Timing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ae Calibration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ae Calibration.Designer.cs">
+      <DependentUpon>Ae Calibration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AutomatedTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AutomatedTest.Designer.cs">
+      <DependentUpon>AutomatedTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FileInspectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FileInspectionForm.designer.cs">
+      <DependentUpon>FileInspectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrameSumming.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrameSumming.Designer.cs">
+      <DependentUpon>FrameSumming.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ISP_Dialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ISP_Dialog.Designer.cs">
+      <DependentUpon>ISP_Dialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OfpsAlgorithmProcess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OfpsAlgorithmProcess.Designer.cs">
+      <DependentUpon>OfpsAlgorithmProcess.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MotionDetector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MotionDetector.Designer.cs">
+      <DependentUpon>MotionDetector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DeadPixelsCorrectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeadPixelsCorrectionForm.designer.cs">
+      <DependentUpon>DeadPixelsCorrectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DeadPixelTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeadPixelTestForm.Designer.cs">
+      <DependentUpon>DeadPixelTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FingerID.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FingerID.Designer.cs">
+      <DependentUpon>FingerID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OpticalVerification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OpticalVerification.designer.cs">
+      <DependentUpon>OpticalVerification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PictureShow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PictureShow.designer.cs">
+      <DependentUpon>PictureShow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LogConsoleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LogConsoleForm.Designer.cs">
+      <DependentUpon>LogConsoleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NoiseConfigurationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NoiseConfigurationForm.Designer.cs">
+      <DependentUpon>NoiseConfigurationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PasswordForm.Designer.cs">
+      <DependentUpon>PasswordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SoftwareVersion.cs" />
+    <Compile Include="T7806 RA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="T7806 RA.Designer.cs">
+      <DependentUpon>T7806 RA.cs</DependentUpon>
+    </Compile>
+    <Compile Include="T8820_AutoTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="T8820_AutoTest.designer.cs">
+      <DependentUpon>T8820_AutoTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimingGui.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimingGui.designer.cs">
+      <DependentUpon>TimingGui.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TwoD_HDR_Demo_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TwoD_HDR_Demo_Form.Designer.cs">
+      <DependentUpon>TwoD_HDR_Demo_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Two_D_HDR_Diff_Fusion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Two_D_HDR_Diff_Fusion.Designer.cs">
+      <DependentUpon>Two_D_HDR_Diff_Fusion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Two_D_HDR_Filter_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Two_D_HDR_Filter_Form.Designer.cs">
+      <DependentUpon>Two_D_HDR_Filter_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TY7806Test.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TY7806Test.Designer.cs">
+      <DependentUpon>TY7806Test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TY7868Test.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TY7868Test.Designer.cs">
+      <DependentUpon>TY7868Test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VerificationByChip\ElectricalItemForT7806Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VerificationByChip\ElectricalItemForT7806Form.designer.cs">
+      <DependentUpon>ElectricalItemForT7806Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VersionControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VersionControl.Designer.cs">
+      <DependentUpon>VersionControl.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="CFPN_Test.resx">
+      <DependentUpon>CFPN_Test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Channel Imbalance Analysis.resx">
+      <DependentUpon>Channel Imbalance Analysis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CharacteristicCompareForm.resx">
+      <DependentUpon>CharacteristicCompareForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CharacteristicTest\CharacteristicTestForm.resx">
+      <DependentUpon>CharacteristicTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataFlowForm.resx">
+      <DependentUpon>DataFlowForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DDS_Parameter.resx">
+      <DependentUpon>DDS_Parameter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DothinkeyForm.resx">
+      <DependentUpon>DothinkeyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DvsOfflineShowForm.resx">
+      <DependentUpon>DvsOfflineShowForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DVSShowForm.resx">
+      <DependentUpon>DVSShowForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DVS_set.resx">
+      <DependentUpon>DVS_set.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ECLForm.resx">
+      <DependentUpon>ECLForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ECLNewFlowForm.resx">
+      <DependentUpon>ECLNewFlowForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HistogramForm.resx">
+      <DependentUpon>HistogramForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImageDisplayForm.resx">
+      <DependentUpon>ImageDisplayForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImageShowForm.resx">
+      <DependentUpon>ImageShowForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MeanCurve.resx">
+      <DependentUpon>MeanCurve.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MeanValueTest.resx">
+      <DependentUpon>MeanValueTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MTF_Form.resx">
+      <DependentUpon>MTF_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionForm.resx">
+      <DependentUpon>OptionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ParallelTimingMeasurement.resx">
+      <DependentUpon>ParallelTimingMeasurement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgressForm.resx">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegionOfInterestForm.resx">
+      <DependentUpon>RegionOfInterestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReliabilityTestForm.resx">
+      <DependentUpon>ReliabilityTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ROI_table.resx">
+      <DependentUpon>ROI_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sensitivity.resx">
+      <DependentUpon>Sensitivity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SensorRegisterByChip\SensorRegisterForT2001JAForm.resx">
+      <DependentUpon>SensorRegisterForT2001JAForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SensorRegisterByChip\SensorRegisterForT7806Form.resx">
+      <DependentUpon>SensorRegisterForT7806Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SensorRegisterByChip\SensorRegisterForT7805Form.resx">
+      <DependentUpon>SensorRegisterForT7805Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SensorRegisterByChip\SensorRegisterForGC02M1Form.resx">
+      <DependentUpon>SensorRegisterForGC02M1Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SensorRegisterByChip\SensorRegisterForT8820Form.resx">
+      <DependentUpon>SensorRegisterForT8820Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SensorRegisterByChip\SensorRegisterForTQ121JAForm.resx">
+      <DependentUpon>SensorRegisterForTQ121JAForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SensorRegisterMainForm.resx">
+      <DependentUpon>SensorRegisterMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SNR Calculate.resx">
+      <DependentUpon>SNR Calculate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StrongLight.resx">
+      <DependentUpon>StrongLight.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SW_ISP_Form.resx">
+      <DependentUpon>SW_ISP_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="T7805Timing.resx">
+      <DependentUpon>T7805Timing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ae Calibration.resx">
+      <DependentUpon>Ae Calibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AutomatedTest.resx">
+      <DependentUpon>AutomatedTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileInspectionForm.resx">
+      <DependentUpon>FileInspectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrameSumming.resx">
+      <DependentUpon>FrameSumming.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ISP_Dialog.resx">
+      <DependentUpon>ISP_Dialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OfpsAlgorithmProcess.resx">
+      <DependentUpon>OfpsAlgorithmProcess.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MotionDetector.resx">
+      <DependentUpon>MotionDetector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeadPixelsCorrectionForm.resx">
+      <DependentUpon>DeadPixelsCorrectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeadPixelTestForm.resx">
+      <DependentUpon>DeadPixelTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FingerID.resx">
+      <DependentUpon>FingerID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OpticalVerification.resx">
+      <DependentUpon>OpticalVerification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PictureShow.resx">
+      <DependentUpon>PictureShow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LogConsoleForm.resx">
+      <DependentUpon>LogConsoleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NoiseConfigurationForm.resx">
+      <DependentUpon>NoiseConfigurationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PasswordForm.resx">
+      <DependentUpon>PasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="T7806 RA.resx">
+      <DependentUpon>T7806 RA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="T8820_AutoTest.resx">
+      <DependentUpon>T8820_AutoTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimingGui.resx">
+      <DependentUpon>TimingGui.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TwoD_HDR_Demo_Form.resx">
+      <DependentUpon>TwoD_HDR_Demo_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Two_D_HDR_Diff_Fusion.resx">
+      <DependentUpon>Two_D_HDR_Diff_Fusion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Two_D_HDR_Filter_Form.resx">
+      <DependentUpon>Two_D_HDR_Filter_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TY7806Test.resx">
+      <DependentUpon>TY7806Test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TY7868Test.resx">
+      <DependentUpon>TY7868Test.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="CharacteristicTest\CharacteristicTest.PartSweep.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <EmbeddedResource Include="VerificationByChip\ElectricalItemForT7806Form.resx">
+      <DependentUpon>ElectricalItemForT7806Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VersionControl.resx">
+      <DependentUpon>VersionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="PG_UI2_1_TemporaryKey.pfx" />
+    <None Include="PG_UI2_TemporaryKey.pfx" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="Resources\TestPattern.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MetroFramework.txt" />
+    <Content Include="Resources\AxInterop.ZOLIXOMNISPECLib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\enrollMatchLib.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\folder vector icon_3725290_23x23.png" />
+    <Content Include="Resources\Interop.ZOLIXOMNISPECLib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\OphirLMMeasurement.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoreLib\CoreLib.csproj">
+      <Project>{e24d5745-692f-414e-9a6b-9e57c9c8e9f4}</Project>
+      <Name>CoreLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImageSignalProcessorLib\ImageSignalProcessorLib.csproj">
+      <Project>{D28AF134-AC01-4E82-B002-21ADC6ED5824}</Project>
+      <Name>ImageSignalProcessorLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InstrumentLib\InstrumentLib.csproj">
+      <Project>{736f87db-ee4c-4927-a5ab-b85fc0faf000}</Project>
+      <Name>InstrumentLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JIG_BOX\JIG_BOX.vcxproj">
+      <Project>{8b3759e8-de0b-4e4e-84e6-5d0ca5259083}</Project>
+      <Name>JIG_BOX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NoiseLib\NoiseLib.csproj">
+      <Project>{f8c1c569-51f8-4583-aa19-3e6b11348c92}</Project>
+      <Name>NoiseLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpticalSensor\optical_sensor.vcxproj">
+      <Project>{4a74de4d-4226-43ef-ad6b-cbcc7d9b25e6}</Project>
+      <Name>OpticalSensor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PG_ISP\PG_ISP.vcxproj">
+      <Project>{748fb473-5223-4901-a8cb-cfe9bbfe44a7}</Project>
+      <Name>PG_ISP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\System.Extension\System.Extension.csproj">
+      <Project>{7f70bde2-d422-4829-acc5-222d8b4831f9}</Project>
+      <Name>System.Extension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TyrafosLibrary\TyrafosLibrary.csproj">
+      <Project>{02CAF8E2-6A15-41F2-8A8C-B434CAA3B6F9}</Project>
+      <Name>TyrafosLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 和 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>9</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="OphirLMMeasurementLib">
+      <Guid>{F7267688-9A91-4B70-AE35-86A2D6E74D2A}</Guid>
+      <VersionMajor>9</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>del /F /A /Q "$(TargetDir)config"
+del /F /A /Q "$(TargetDir)firmware"
+mkdir "$(TargetDir)config"
+mkdir "$(TargetDir)firmware"
+xcopy "$(ProjectDir)Resources\config\*.*"  "$(TargetDir)config\*.*"  /y /S
+xcopy "$(ProjectDir)Resources\firmware\*.*"  "$(TargetDir)firmware\*.*"  /y /S
+xcopy "$(TargetDir)Resources\cvextern.dll"  "$(TargetDir)"  /y /S
+xcopy "$(ProjectDir)Resources\DefaultLongExpoBackground.raw"  "$(TargetDir)Resources\"  /y /S
+xcopy "$(ProjectDir)Resources\DefaultShortExpoBackground.raw"  "$(TargetDir)Resources\"  /y /S
+xcopy "$(ProjectDir)Resources\Log_Svn.txt"  "$(TargetDir)Resources\"  /y /S</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

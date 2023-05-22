@@ -1,0 +1,7 @@
+LensShading=D:\TY7805\Issue\ISP XXXXXXXXXXXXXX\18_01\gainerror_20200805_1\GainError.txt
+Binning=1
+RectDebug=true
+RectBackgroundSubtraction2nd=true
+Folder=D:\TY7805\Issue\ISP XXXXXXXXXXXXXX\18_01\bmp(原圖)
+Folder=D:\TY7805\Issue\ISP XXXXXXXXXXXXXX\18_01\bmp(原圖)1
+Folder=D:\TY7805\Issue\ISP XXXXXXXXXXXXXX\18_01\bmp(原圖)4
