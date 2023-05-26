@@ -1197,7 +1197,7 @@ namespace CoreLib
                 if (active)
                 {
                     op.Play();
-                    if (Tyrafos.Factory.GetOpticalSensor() is T7805 || Tyrafos.Factory.GetOpticalSensor() is T7806)
+                    if (Tyrafos.Factory.GetOpticalSensor() is T7805 || Tyrafos.Factory.GetOpticalSensor() is T7806 || Tyrafos.Factory.GetOpticalSensor() is TQ121JA)
                     {
                         DataFormat = Factory.GetOpticalSensor().GetPixelFormat().ToString();
                     }

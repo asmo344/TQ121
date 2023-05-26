@@ -139,7 +139,7 @@ namespace Tyrafos.UniversalSerialBus
 
             base.Stop();
         }
-
+        
         private byte[] CDC_ReceiveBulkData()
         {
             var buf = new byte[base.FrameLength];

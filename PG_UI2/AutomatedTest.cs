@@ -17,6 +17,8 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using Tyrafos;
+using Tyrafos.OpticalSensor;
+using static Tyrafos.OpticalSensor.TQ121JA;
 
 namespace PG_UI2
 {
@@ -48,6 +50,7 @@ namespace PG_UI2
         bool IsScopeConnet = false;
         bool IsMultiMeterConnect = false;
         bool IsPowerConnect = false;
+        bool IsMic24045 = false;
 
         string keysightScopeAddr = "DSOX2004A";
         string tektronixMultiMeterAddr = "DMM6500";
@@ -188,6 +191,16 @@ namespace PG_UI2
                 iovdd_label.Visible = true;
                 voltage_comboBox.Visible = true;
                 v_label.Visible = true;
+            }
+            else if (_op is Tyrafos.OpticalSensor.TQ121JA tq121)
+            {
+                voltage_comboBox.Items.AddRange(VoltageMODE);
+                voltage_comboBox.SelectedIndex = 1;
+                shmooSpiSpeed_checkedListBox.Items.RemoveAt(0);
+                iovdd_label.Visible = false;
+                voltage_comboBox.Visible = false;
+                v_label.Visible = false;
+                shmooCRC_checkedListBox.Visible = true;
             }
         }
 
@@ -752,7 +765,34 @@ namespace PG_UI2
                             xlsx_7806.SaveAs(filepath);
                         }
                     }
-                    else
+                    else if (_op is Tyrafos.OpticalSensor.T7805)
+                    {
+                        if (shmooStepVoltage > 0.0)
+                        {
+                            // AE = True
+                            var AE_True_data = Noise_Data.OrderBy(x => x.SPI).ThenBy(x => x.AVDD_V).Where(x => x.AE == true);
+
+                            // AE = False
+                            var AE_False_data = Noise_Data.OrderBy(x => x.SPI).ThenBy(x => x.AVDD_V).Where(x => x.AE == false);
+
+                            var xlsx = Export(AE_True_data, AE_False_data);
+                            //存檔至指定位置
+                            xlsx.SaveAs(filepath);
+                        }
+                        else
+                        {
+                            // AE = True
+                            var AE_True_data = Noise_Data.OrderBy(x => x.SPI).ThenByDescending(x => x.AVDD_V).Where(x => x.AE == true);
+
+                            // AE = False
+                            var AE_False_data = Noise_Data.OrderBy(x => x.SPI).ThenByDescending(x => x.AVDD_V).Where(x => x.AE == false);
+
+                            var xlsx = Export(AE_True_data, AE_False_data);
+                            //存檔至指定位置
+                            xlsx.SaveAs(filepath);
+                        }
+                    }
+                    else if (_op is Tyrafos.OpticalSensor.TQ121JA) 
                     {
                         if (shmooStepVoltage > 0.0)
                         {
@@ -795,11 +835,28 @@ namespace PG_UI2
             int range = (int)((endVoltage - startVoltage) / voltageStep + 1);
             int AverageNum = 4;
 
-            tektronix.PS2230_30_OUTPut("OFF");
-            Thread.Sleep(10);
-            tektronix.PS2230_30_OUTPut("ON");
-            tektronix.PS2230_30_1_VOLTageLevel(powerChannel[2], Convert.ToString(shmooFixedVoltage2));
-            tektronix.PS2230_30_1_VOLTageLevel(powerChannel[1], Convert.ToString(shmooFixedVoltage));
+            if (IsMic24045 == false) 
+            {
+                tektronix.PS2230_30_OUTPut("OFF");
+                Thread.Sleep(10);
+                tektronix.PS2230_30_OUTPut("ON");
+                tektronix.PS2230_30_1_VOLTageLevel(powerChannel[2], Convert.ToString(shmooFixedVoltage2));
+                tektronix.PS2230_30_1_VOLTageLevel(powerChannel[1], Convert.ToString(shmooFixedVoltage));
+            }
+            else
+            {
+                var device = (Tyrafos.DeviceControl.MIC24045.SLAVEID)Enum.Parse(typeof(Tyrafos.DeviceControl.MIC24045.SLAVEID),Tyrafos.DeviceControl.MIC24045.SLAVEID.STM32F723_GIANT_BOARD.ToString());
+                var enable = Tyrafos.DeviceControl.MIC24045.GetEnableStatus(device);
+
+                if (enable)
+                {
+                    var voltage = shmooFixedVoltage2;
+                    Tyrafos.DeviceControl.MIC24045.SetVoltage(device, voltage); 
+                    printLog("MIC24045 SetVoltage: " + voltage);
+
+                }
+            }
+            
 
             if (_op is Tyrafos.OpticalSensor.T7806 t7806)
             {
@@ -1034,7 +1091,7 @@ namespace PG_UI2
                     }
                 }
             }
-            else
+            else if (_op is Tyrafos.OpticalSensor.T7805 t7805)
             {
                 if (shmooMode_checkedListBox.GetItemChecked(0)) // AE enable
                 {
@@ -1450,7 +1507,820 @@ namespace PG_UI2
                     }
                 }
             }
+            else if (_op is Tyrafos.OpticalSensor.TQ121JA tq121) 
+            {
+                int _spiSpeed = 24;
+                string fileNameShmooAe = "ShmooAeOnSpi24MHz@";
+                
+               
+                if (shmooMode_checkedListBox.GetItemChecked(0)) // AE enbale
+                {
+                    if (shmooSpiSpeed_checkedListBox.GetItemChecked(0)) //12 MHZ                                                         
+                    {
+                      
+                        _spiSpeed = 12;
+                        fileNameShmooAe = "ShmooAeOnSpi12MHz@";
 
+                        if (IsMic24045 == false)
+                        {
+                            tektronix.PS2230_30_1_VOLTageLevel(powerChannel[0], Convert.ToString(startVoltage));
+                            tektronix.PS2230_30_1_VOLTageLevelStep(powerChannel[0], Convert.ToString(Math.Abs(voltageStep))); // voltageStep only > 0.0
+                        }
+                        else
+                        {
+                            var device = (Tyrafos.DeviceControl.MIC24045.SLAVEID)Enum.Parse(typeof(Tyrafos.DeviceControl.MIC24045.SLAVEID), Tyrafos.DeviceControl.MIC24045.SLAVEID.STM32F723_GIANT_BOARD.ToString());
+                            var enable = Tyrafos.DeviceControl.MIC24045.GetEnableStatus(device);
+
+                            if (enable)
+                            {
+                                var voltage = startVoltage;
+                                Tyrafos.DeviceControl.MIC24045.SetVoltage(device, voltage);
+                                printLog("Set Voltage" + voltage);
+                            }
+                        }
+
+                        //core.SensorReset();
+                        printLog("Load config");
+                        bool ret = loadconfig();
+
+                        if (!ret)
+                        {
+                            Counter = 0;
+                            shmoo_checkBox.BackColor = SystemColors.Control;
+                            shmoo_checkBox.Checked = false;
+                            shmootest.Stop();
+                            MessageBox.Show("Load config failed.");
+                            return;
+                        }
+                        tq121.SetSpiMode(TQ121JA.SpiMode.Mode1);
+                        printLog("SPI mode" + DataRate[1]);
+
+                      
+
+                        printLog("AE eable");
+                        IspAeState ispAe = tq121.GetIspAeState();
+                        ispAe.enable = true;
+                        tq121.SetIspAeState(ispAe);
+                        Console.WriteLine("IsAutoExpoEnable: " + true);
+
+
+                        bool iscrc = false;
+                        if (shmooCRC_checkedListBox.Checked)
+                        {
+                            iscrc = true;
+                            tq121.CRCEnable();
+                            printLog("CRC Enable");
+
+                        }
+                        int FailCount = 0;
+                        for (int i = 0; i < range; i++)
+                        {
+                            if (IsMic24045) 
+                            {
+                                var device = (Tyrafos.DeviceControl.MIC24045.SLAVEID)Enum.Parse(typeof(Tyrafos.DeviceControl.MIC24045.SLAVEID), Tyrafos.DeviceControl.MIC24045.SLAVEID.STM32F723_GIANT_BOARD.ToString());
+                                var enable = Tyrafos.DeviceControl.MIC24045.GetEnableStatus(device);
+
+                                if (enable)
+                                {
+                                    var voltage = startVoltage;
+                                    Tyrafos.DeviceControl.MIC24045.SetVoltage(device, startVoltage + (i * voltageStep));
+                                    printLog("Set Voltage" + Convert.ToString(startVoltage + (i * voltageStep))) ;
+                                }
+                            }
+                           
+                            printLog("Cur voltage: " + Convert.ToString(startVoltage + (i * voltageStep)) + "V");
+                            Thread.Sleep(5);
+                            string fileName = fileNameShmooAe + Convert.ToString(startVoltage + (i * voltageStep)) + "V";
+                            
+                            if (iscrc) 
+                            {
+                                iscrc = true;
+                                tq121.CRCEnable();
+                                int bl = tq121.GetBurstLength();
+                                if (bl == 0) tq121.SetBurstLength((byte)AverageNum);
+                            }
+
+                            int[] IntFrame = New_SaveImage_flow(fileName, AverageNum,iscrc);
+                            if (IntFrame == null)
+                            {
+                                FailCount++;
+                                if (FailCount < 5) 
+                                {
+                                    printLog("GetImage failed ,FailCount:" + FailCount);
+                                    i--;
+                                    continue;
+                                }
+                                Counter = 0;
+                                shmoo_checkBox.BackColor = SystemColors.Control;
+                                shmoo_checkBox.Checked = false;
+                                shmootest.Stop();
+                                MessageBox.Show("GetImage failed.");
+                                return;
+                            }
+                            FailCount = 0;
+                            byte[] frame = new byte[core.GetSensorWidth() * core.GetSensorHeight()];
+                            if (tq121.GetPixelFormat() == Tyrafos.PixelFormat.RAW8)
+                            {
+                                for (int idx = 0; idx < frame.Length; idx++)
+                                {
+                                    frame[idx] = (byte)IntFrame[idx];
+                                }
+                            }
+                            else if (tq121.GetPixelFormat() == Tyrafos.PixelFormat.RAW10)
+                            {
+                                for (int idx = 0; idx < frame.Length; idx++)
+                                {
+                                    int temp = IntFrame[idx] >> 2;
+                                    frame[idx] = (byte)temp;
+                                }
+                            }
+                            if (iscrc)
+                            {
+                                var value = tq121.GetCRC16Value();
+                                printLog("Hardware CRC value = 0x" + value.ToString("X2"));
+                               
+
+                                int length = 0;
+                                for (int j = 0; j < captureFrame.Length; j++)
+                                {
+                                    length += captureFrame[j].Length;
+                                }
+                                byte[] frameData = new byte[length];
+                                int copyIdx = 0;
+                                for (int j = 0; j < captureFrame.Length; j++)
+                                {
+                                    Buffer.BlockCopy(captureFrame[j], 0, frameData, copyIdx, captureFrame[j].Length);
+                                    copyIdx += captureFrame[j].Length;
+                                }
+                                var sz = tq121.GetSize();
+                                uint width = 0, height = 0;
+                                if (tq121.GetPixelFormat() == Tyrafos.PixelFormat.RAW10)
+                                {
+                                    width = (uint)(sz.Width * 1.25);
+                                    height = (uint)(sz.Height * captureFrame.Length);
+                                }
+                                else if (tq121.GetPixelFormat() == Tyrafos.PixelFormat.RAW8)
+                                {
+                                    width = (uint)sz.Width;
+                                    height = (uint)(sz.Height * captureFrame.Length);
+                                }
+                                var softwareCrc = tq121.Software_CRC(frameData, width, height, 0xFFFF);
+                                printLog("SoftWare CRC value = 0x" + softwareCrc.ToString("X2"));
+
+                                if (softwareCrc.ToString("X2") == value.ToString("X2")) 
+                                {
+                                    printLog("CRC Success");
+                                }
+                                else
+                                {
+                                    printLog("CRC Fail");
+                                    FailCount++;
+                                    if (FailCount < 5)
+                                    {
+                                        printLog("FailCount:"+FailCount);
+                                        i--;
+                                        continue;
+                                    }
+                                    Counter = 0;
+                                    shmoo_checkBox.BackColor = SystemColors.Control;
+                                    shmoo_checkBox.Checked = false;
+                                    shmootest.Stop();
+                                    MessageBox.Show("CRC Fail.");
+                                    return;
+                                }
+                            }
+                            FailCount = 0;
+                            New_SaveNoiseInfo(fileName, true, startVoltage + (i * voltageStep), _spiSpeed, core.GetSensorWidth(), core.GetSensorHeight(), frame, AverageNum);
+                            string UP_DOWN = null;
+                            if (voltageStep > 0.0)
+                            {
+                                UP_DOWN = "UP";
+                            }
+                            else
+                            {
+                                UP_DOWN = "DOWN";
+                            }
+
+                            if (i < range - 1)
+                            {
+                                if (IsMic24045 == false) 
+                                {
+                                    tektronix.PS2230_30_1_VOLTageLevelUpDwon(powerChannel[0], UP_DOWN);
+                                }
+                                
+                            }
+                        }
+                    }
+                    if (shmooSpiSpeed_checkedListBox.GetItemChecked(1)) //24 MHZ                                                         
+                    {
+                        _spiSpeed = 24;
+                        fileNameShmooAe = "ShmooAeOnSpi24MHz@";
+                        
+                        if (IsMic24045 == false)
+                        {
+                            tektronix.PS2230_30_1_VOLTageLevel(powerChannel[0], Convert.ToString(startVoltage));
+                            tektronix.PS2230_30_1_VOLTageLevelStep(powerChannel[0], Convert.ToString(Math.Abs(voltageStep))); // voltageStep only > 0.0
+                        }
+                        else
+                        {
+                            var device = (Tyrafos.DeviceControl.MIC24045.SLAVEID)Enum.Parse(typeof(Tyrafos.DeviceControl.MIC24045.SLAVEID), Tyrafos.DeviceControl.MIC24045.SLAVEID.STM32F723_GIANT_BOARD.ToString());
+                            var enable = Tyrafos.DeviceControl.MIC24045.GetEnableStatus(device);
+
+                            if (enable)
+                            {
+                                var voltage = startVoltage;
+                                Tyrafos.DeviceControl.MIC24045.SetVoltage(device, voltage);
+                                printLog("Set Voltage" + voltage);
+                            }
+                        }
+
+                        //core.SensorReset();
+                        printLog("Load config");
+                        bool ret = loadconfig();
+
+                        if (!ret)
+                        {
+                            Counter = 0;
+                            shmoo_checkBox.BackColor = SystemColors.Control;
+                            shmoo_checkBox.Checked = false;
+                            shmootest.Stop();
+                            MessageBox.Show("Load config failed.");
+                            return;
+                        }
+                        tq121.SetSpiMode(TQ121JA.SpiMode.Mode0);
+                        printLog("SPI mode" + DataRate[0]);
+                        
+
+                        
+
+                        printLog("AE eable");
+                        IspAeState ispAe = tq121.GetIspAeState();
+                        ispAe.enable = true;
+                        tq121.SetIspAeState(ispAe);
+                        Console.WriteLine("IsAutoExpoEnable: " + true);
+
+
+
+
+
+
+                        bool iscrc = false;
+                        if (shmooCRC_checkedListBox.Checked)
+                        {
+                            iscrc = true;
+                            tq121.CRCEnable();
+                            printLog("CRC Enable");
+
+                        }
+                        int FailCount = 0;
+                        for (int i = 0; i < range; i++)
+                        {
+                            if (IsMic24045)
+                            {
+                                var device = (Tyrafos.DeviceControl.MIC24045.SLAVEID)Enum.Parse(typeof(Tyrafos.DeviceControl.MIC24045.SLAVEID), Tyrafos.DeviceControl.MIC24045.SLAVEID.STM32F723_GIANT_BOARD.ToString());
+                                var enable = Tyrafos.DeviceControl.MIC24045.GetEnableStatus(device);
+
+                                if (enable)
+                                {
+                                    var voltage = startVoltage;
+                                    Tyrafos.DeviceControl.MIC24045.SetVoltage(device, startVoltage + (i * voltageStep));
+                                    printLog("Set Voltage" + Convert.ToString(startVoltage + (i * voltageStep)));
+                                }
+                            }
+
+                            printLog("Cur voltage: " + Convert.ToString(startVoltage + (i * voltageStep)) + "V");
+                            Thread.Sleep(5);
+                            string fileName = fileNameShmooAe + Convert.ToString(startVoltage + (i * voltageStep)) + "V";
+
+                            if (shmooCRC_checkedListBox.Checked)
+                            {
+                                iscrc = true;
+                                tq121.CRCEnable();
+                                int bl = tq121.GetBurstLength();
+                                if (bl == 0) tq121.SetBurstLength((byte)AverageNum);
+                            }
+
+                            int[] IntFrame = New_SaveImage_flow(fileName, AverageNum, iscrc);
+                            if (IntFrame == null)
+                            {
+                                FailCount++;
+                                if (FailCount < 5)
+                                {
+                                    printLog("GetImage failed ,FailCount:" + FailCount);
+                                    i--;
+                                    continue;
+                                }
+                                Counter = 0;
+                                shmoo_checkBox.BackColor = SystemColors.Control;
+                                shmoo_checkBox.Checked = false;
+                                shmootest.Stop();
+                                MessageBox.Show("GetImage failed.");
+                                return;
+                            }
+                            byte[] frame = new byte[core.GetSensorWidth() * core.GetSensorHeight()];
+                            if (tq121.GetPixelFormat() == Tyrafos.PixelFormat.RAW8)
+                            {
+                                for (int idx = 0; idx < frame.Length; idx++)
+                                {
+                                    frame[idx] = (byte)IntFrame[idx];
+                                }
+                            }
+                            else if (tq121.GetPixelFormat() == Tyrafos.PixelFormat.RAW10)
+                            {
+                                for (int idx = 0; idx < frame.Length; idx++)
+                                {
+                                    int temp = IntFrame[idx] >> 2;
+                                    frame[idx] = (byte)temp;
+                                }
+                            }
+                            if (shmooCRC_checkedListBox.Checked)
+                            {
+                                var value = tq121.GetCRC16Value();
+                                printLog("Hardware CRC value = 0x" + value.ToString("X2"));
+
+
+                                int length = 0;
+                                for (int j = 0; j < captureFrame.Length; j++)
+                                {
+                                    length += captureFrame[j].Length;
+                                }
+                                byte[] frameData = new byte[length];
+                                int copyIdx = 0;
+                                for (int j = 0; j < captureFrame.Length; j++)
+                                {
+                                    Buffer.BlockCopy(captureFrame[j], 0, frameData, copyIdx, captureFrame[j].Length);
+                                    copyIdx += captureFrame[j].Length;
+                                }
+                                var sz = tq121.GetSize();
+                                uint width = 0, height = 0;
+                                if (tq121.GetPixelFormat() == Tyrafos.PixelFormat.RAW10)
+                                {
+                                    width = (uint)(sz.Width * 1.25);
+                                    height = (uint)(sz.Height * captureFrame.Length);
+                                }
+                                else if (tq121.GetPixelFormat() == Tyrafos.PixelFormat.RAW8)
+                                {
+                                    width = (uint)sz.Width;
+                                    height = (uint)(sz.Height * captureFrame.Length);
+                                }
+                                var softwareCrc = tq121.Software_CRC(frameData, width, height, 0xFFFF);
+                                printLog("SoftWare CRC value = 0x" + softwareCrc.ToString("X2"));
+
+                                if (softwareCrc.ToString("X2") == value.ToString("X2"))
+                                {
+                                    printLog("CRC Success");
+                                }
+                                else
+                                {
+                                    printLog("CRC Fail");
+                                    FailCount++;
+                                    if (FailCount < 5)
+                                    {
+                                        printLog("FailCount:" + FailCount);
+                                        i--;
+                                        continue;
+                                    }
+                                    Counter = 0;
+                                    shmoo_checkBox.BackColor = SystemColors.Control;
+                                    shmoo_checkBox.Checked = false;
+                                    shmootest.Stop();
+                                    MessageBox.Show("CRC Fail.");
+                                    return;
+                                }
+
+                            }
+                            FailCount = 0;
+                            New_SaveNoiseInfo(fileName, true, startVoltage + (i * voltageStep), _spiSpeed, core.GetSensorWidth(), core.GetSensorHeight(), frame, AverageNum);
+                            string UP_DOWN = null;
+                            if (voltageStep > 0.0)
+                            {
+                                UP_DOWN = "UP";
+                            }
+                            else
+                            {
+                                UP_DOWN = "DOWN";
+                            }
+
+                            if (i < range - 1)
+                            {
+                                if (IsMic24045 == false)
+                                {
+                                    tektronix.PS2230_30_1_VOLTageLevelUpDwon(powerChannel[0], UP_DOWN);
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+                if (shmooMode_checkedListBox.GetItemChecked(1)) // AE disable
+                {
+
+                    if (shmooSpiSpeed_checkedListBox.GetItemChecked(0)) //12 MHZ                                                         
+                    {
+                        _spiSpeed = 12;
+                        fileNameShmooAe = "ShmooAeOffSpi12MHz@";
+                        if (IsMic24045 == false)
+                        {
+                            tektronix.PS2230_30_1_VOLTageLevel(powerChannel[0], Convert.ToString(startVoltage));
+                            tektronix.PS2230_30_1_VOLTageLevelStep(powerChannel[0], Convert.ToString(Math.Abs(voltageStep))); // voltageStep only > 0.0
+                        }
+                        else
+                        {
+                            var device = (Tyrafos.DeviceControl.MIC24045.SLAVEID)Enum.Parse(typeof(Tyrafos.DeviceControl.MIC24045.SLAVEID), Tyrafos.DeviceControl.MIC24045.SLAVEID.STM32F723_GIANT_BOARD.ToString());
+                            var enable = Tyrafos.DeviceControl.MIC24045.GetEnableStatus(device);
+
+                            if (enable)
+                            {
+                                var voltage = startVoltage;
+                                Tyrafos.DeviceControl.MIC24045.SetVoltage(device, voltage);
+                                printLog("Set Voltage" + voltage);
+                            }
+                        }
+                        //core.SensorReset();
+                        printLog("Load config");
+                        bool ret = loadconfig();
+
+                        if (!ret)
+                        {
+                            Counter = 0;
+                            shmoo_checkBox.BackColor = SystemColors.Control;
+                            shmoo_checkBox.Checked = false;
+                            shmootest.Stop();
+                            MessageBox.Show("Load config failed.");
+                            return;
+                        }
+                        tq121.SetSpiMode(TQ121JA.SpiMode.Mode1);
+                        printLog("SPI mode" + DataRate[1]);
+                        
+
+                       
+
+                        printLog("AE disable");
+                        IspAeState ispAe = tq121.GetIspAeState();
+                        ispAe.enable = false;
+                        tq121.SetIspAeState(ispAe);
+                        Console.WriteLine("IsAutoExpoEnable: " + false);
+
+
+
+
+
+
+                        bool iscrc = false;
+                        if (shmooCRC_checkedListBox.Checked)
+                        {
+                            iscrc = true;
+                            tq121.CRCEnable();
+                            printLog("CRC Enable");
+
+                        }
+                        int FailCount = 0;
+                        for (int i = 0; i < range; i++)
+                        {
+                            if (IsMic24045)
+                            {
+                                var device = (Tyrafos.DeviceControl.MIC24045.SLAVEID)Enum.Parse(typeof(Tyrafos.DeviceControl.MIC24045.SLAVEID), Tyrafos.DeviceControl.MIC24045.SLAVEID.STM32F723_GIANT_BOARD.ToString());
+                                var enable = Tyrafos.DeviceControl.MIC24045.GetEnableStatus(device);
+
+                                if (enable)
+                                {
+                                    var voltage = startVoltage;
+                                    Tyrafos.DeviceControl.MIC24045.SetVoltage(device, startVoltage + (i * voltageStep));
+                                    printLog("Set Voltage" + Convert.ToString(startVoltage + (i * voltageStep)));
+                                }
+                            }
+
+                            printLog("Cur voltage: " + Convert.ToString(startVoltage + (i * voltageStep)) + "V");
+                            Thread.Sleep(5);
+                            string fileName = fileNameShmooAe + Convert.ToString(startVoltage + (i * voltageStep)) + "V";
+
+                            if (shmooCRC_checkedListBox.Checked)
+                            {
+                                iscrc = true;
+                                tq121.CRCEnable();
+
+                                int bl = tq121.GetBurstLength();
+                                if (bl == 0) tq121.SetBurstLength((byte)AverageNum);
+                            }
+
+                            int[] IntFrame = New_SaveImage_flow(fileName, AverageNum, iscrc);
+                            if (IntFrame == null)
+                            {
+                                FailCount++;
+                                if (FailCount < 5)
+                                {
+                                    printLog("GetImage failed ,FailCount:" + FailCount);
+                                    i--;
+                                    continue;
+                                }
+                                Counter = 0;
+                                shmoo_checkBox.BackColor = SystemColors.Control;
+                                shmoo_checkBox.Checked = false;
+                                shmootest.Stop();
+                                //MessageBox.Show("GetImage failed.");
+                                return;
+                            }
+
+                            byte[] frame = new byte[core.GetSensorWidth() * core.GetSensorHeight()];
+                            if (tq121.GetPixelFormat() == Tyrafos.PixelFormat.RAW8)
+                            {
+                                for (int idx = 0; idx < frame.Length; idx++)
+                                {
+                                    frame[idx] = (byte)IntFrame[idx];
+                                }
+                            }
+                            else if (tq121.GetPixelFormat() == Tyrafos.PixelFormat.RAW10) 
+                            {
+                                for (int idx = 0; idx < frame.Length; idx++)
+                                {
+                                    int temp = IntFrame[idx] >> 2;
+                                    frame[idx] = (byte)temp;
+                                }
+                            }
+                            
+                            if (shmooCRC_checkedListBox.Checked)
+                            {
+                                var value = tq121.GetCRC16Value();
+                                printLog("Hardware CRC value = 0x" + value.ToString("X2"));
+
+
+                                int length = 0;
+                                for (int j = 0; j < captureFrame.Length; j++)
+                                {
+                                    length += captureFrame[j].Length;
+                                }
+                                byte[] frameData = new byte[length];
+                                int copyIdx = 0;
+                                for (int j = 0; j < captureFrame.Length; j++)
+                                {
+                                    Buffer.BlockCopy(captureFrame[j], 0, frameData, copyIdx, captureFrame[j].Length);
+                                    copyIdx += captureFrame[j].Length;
+                                }
+                                var sz = tq121.GetSize();
+                                uint width = 0, height = 0;
+                                if (tq121.GetPixelFormat() == Tyrafos.PixelFormat.RAW10)
+                                {
+                                    width = (uint)(sz.Width * 1.25);
+                                    height = (uint)(sz.Height * captureFrame.Length);
+                                }
+                                else if (tq121.GetPixelFormat() == Tyrafos.PixelFormat.RAW8)
+                                {
+                                    width = (uint)sz.Width;
+                                    height = (uint)(sz.Height * captureFrame.Length);
+                                }
+                                var softwareCrc = tq121.Software_CRC(frameData, width, height, 0xFFFF);
+                                printLog("SoftWare CRC value = 0x" + softwareCrc.ToString("X2"));
+                                if (softwareCrc.ToString("X2") == value.ToString("X2"))
+                                {
+                                    printLog("CRC Success");
+                                }
+                                else
+                                {
+                                    printLog("CRC Fail");
+                                    FailCount++;
+                                    if (FailCount < 5)
+                                    {
+                                        printLog("FailCount:" + FailCount);
+                                        i--;
+                                        continue;
+                                    }
+                                    Counter = 0;
+                                    shmoo_checkBox.BackColor = SystemColors.Control;
+                                    shmoo_checkBox.Checked = false;
+                                    shmootest.Stop();
+                                    MessageBox.Show("CRC Fail.");
+                                    return;
+                                }
+                            }
+                            FailCount = 0;
+                            New_SaveNoiseInfo(fileName, false, startVoltage + (i * voltageStep), _spiSpeed, core.GetSensorWidth(), core.GetSensorHeight(), frame, AverageNum);
+                            string UP_DOWN = null;
+                            if (voltageStep > 0.0)
+                            {
+                                UP_DOWN = "UP";
+                            }
+                            else
+                            {
+                                UP_DOWN = "DOWN";
+                            }
+
+                            if (i < range - 1)
+                            {
+                                if (IsMic24045 == false)
+                                {
+                                    tektronix.PS2230_30_1_VOLTageLevelUpDwon(powerChannel[0], UP_DOWN);
+                                }
+
+                            }
+                        }
+                    }
+                    if (shmooSpiSpeed_checkedListBox.GetItemChecked(1)) //24 MHZ                                                         
+                    {
+                        _spiSpeed = 24;
+                        fileNameShmooAe = "ShmooAeOffSpi24MHz@";
+
+                        if (IsMic24045 == false)
+                        {
+                            tektronix.PS2230_30_1_VOLTageLevel(powerChannel[0], Convert.ToString(startVoltage));
+                            tektronix.PS2230_30_1_VOLTageLevelStep(powerChannel[0], Convert.ToString(Math.Abs(voltageStep))); // voltageStep only > 0.0
+                        }
+                        else
+                        {
+                            var device = (Tyrafos.DeviceControl.MIC24045.SLAVEID)Enum.Parse(typeof(Tyrafos.DeviceControl.MIC24045.SLAVEID), Tyrafos.DeviceControl.MIC24045.SLAVEID.STM32F723_GIANT_BOARD.ToString());
+                            var enable = Tyrafos.DeviceControl.MIC24045.GetEnableStatus(device);
+
+                            if (enable)
+                            {
+                                var voltage = startVoltage;
+                                Tyrafos.DeviceControl.MIC24045.SetVoltage(device, voltage);
+                                printLog("Set Voltage" + voltage);
+                            }
+                        }
+                        //core.SensorReset();
+                        printLog("Load config");
+                        bool ret = loadconfig();
+
+                        if (!ret)
+                        {
+                            Counter = 0;
+                            shmoo_checkBox.BackColor = SystemColors.Control;
+                            shmoo_checkBox.Checked = false;
+                            shmootest.Stop();
+                            MessageBox.Show("Load config failed.");
+                            return;
+                        }
+                        tq121.SetSpiMode(TQ121JA.SpiMode.Mode0);
+                        printLog("SPI mode" + DataRate[0]);
+                       
+
+                        
+
+                        printLog("AE disable");
+                        IspAeState ispAe = tq121.GetIspAeState();
+                        ispAe.enable = false;
+                        tq121.SetIspAeState(ispAe);
+                        Console.WriteLine("IsAutoExpoEnable: " + false);
+
+
+
+
+
+
+                        bool iscrc = false;
+                        if (shmooCRC_checkedListBox.Checked)
+                        {
+                            iscrc = true;
+                            tq121.CRCEnable();
+                            printLog("CRC Enable");
+
+                        }
+                        int FailCount = 0;
+                        for (int i = 0; i < range; i++)
+                        {
+                            if (IsMic24045)
+                            {
+                                var device = (Tyrafos.DeviceControl.MIC24045.SLAVEID)Enum.Parse(typeof(Tyrafos.DeviceControl.MIC24045.SLAVEID), Tyrafos.DeviceControl.MIC24045.SLAVEID.STM32F723_GIANT_BOARD.ToString());
+                                var enable = Tyrafos.DeviceControl.MIC24045.GetEnableStatus(device);
+
+                                if (enable)
+                                {
+                                    var voltage = startVoltage;
+                                    Tyrafos.DeviceControl.MIC24045.SetVoltage(device, startVoltage + (i * voltageStep));
+                                    printLog("Set Voltage" + Convert.ToString(startVoltage + (i * voltageStep)));
+                                }
+                            }
+
+                            printLog("Cur voltage: " + Convert.ToString(startVoltage + (i * voltageStep)) + "V");
+                            Thread.Sleep(5);
+                            string fileName = fileNameShmooAe + Convert.ToString(startVoltage + (i * voltageStep)) + "V";
+
+                            if (shmooCRC_checkedListBox.Checked)
+                            {
+                                iscrc = true;
+                                tq121.CRCEnable();
+
+                                int bl = tq121.GetBurstLength();
+                                if (bl == 0) tq121.SetBurstLength((byte)AverageNum);
+                            }
+
+                            int[] IntFrame = New_SaveImage_flow(fileName, AverageNum, iscrc);
+                            if (IntFrame == null)
+                            {
+                                FailCount++;
+                                if (FailCount < 5)
+                                {
+                                    printLog("GetImage failed ,FailCount:" + FailCount);
+                                    i--;
+                                    continue;
+                                }
+                                Counter = 0;
+                                shmoo_checkBox.BackColor = SystemColors.Control;
+                                shmoo_checkBox.Checked = false;
+                                shmootest.Stop();
+                                //MessageBox.Show("GetImage failed.");
+                                return;
+                            }
+
+                            byte[] frame = new byte[core.GetSensorWidth() * core.GetSensorHeight()];
+                            if (tq121.GetPixelFormat() == Tyrafos.PixelFormat.RAW8)
+                            {
+                                for (int idx = 0; idx < frame.Length; idx++)
+                                {
+                                    frame[idx] = (byte)IntFrame[idx];
+                                }
+                            }
+                            else if (tq121.GetPixelFormat() == Tyrafos.PixelFormat.RAW10)
+                            {
+                                for (int idx = 0; idx < frame.Length; idx++)
+                                {
+                                    int temp = IntFrame[idx] >> 2;
+                                    frame[idx] = (byte)temp;
+                                }
+                            }
+                            if (shmooCRC_checkedListBox.Checked)
+                            {
+                                var value = tq121.GetCRC16Value();
+                                printLog("Hardware CRC value = 0x" + value.ToString("X2"));
+
+
+                                int length = 0;
+                                for (int j = 0; j < captureFrame.Length; j++)
+                                {
+                                    length += captureFrame[j].Length;
+                                }
+                                byte[] frameData = new byte[length];
+                                int copyIdx = 0;
+                                for (int j = 0; j < captureFrame.Length; j++)
+                                {
+                                    Buffer.BlockCopy(captureFrame[j], 0, frameData, copyIdx, captureFrame[j].Length);
+                                    copyIdx += captureFrame[j].Length;
+                                }
+                                var sz = tq121.GetSize();
+                                uint width = 0, height = 0;
+                                if (tq121.GetPixelFormat() == Tyrafos.PixelFormat.RAW10)
+                                {
+                                    width = (uint)(sz.Width * 1.25);
+                                    height = (uint)(sz.Height * captureFrame.Length);
+                                }
+                                else if (tq121.GetPixelFormat() == Tyrafos.PixelFormat.RAW8)
+                                {
+                                    width = (uint)sz.Width;
+                                    height = (uint)(sz.Height * captureFrame.Length);
+                                }
+                                var softwareCrc = tq121.Software_CRC(frameData, width, height, 0xFFFF);
+                                printLog("SoftWare CRC value = 0x" + softwareCrc.ToString("X2"));
+                                if (softwareCrc.ToString("X2") == value.ToString("X2"))
+                                {
+                                    printLog("CRC Success");
+                                }
+                                else
+                                {
+                                    printLog("CRC Fail");
+                                    FailCount++;
+                                    if (FailCount < 5)
+                                    {
+                                        printLog("FailCount:" + FailCount);
+                                        i--;
+                                        continue;
+                                    }
+                                    Counter = 0;
+                                    shmoo_checkBox.BackColor = SystemColors.Control;
+                                    shmoo_checkBox.Checked = false;
+                                    shmootest.Stop();
+                                    MessageBox.Show("CRC Fail.");
+                                    return;
+                                }
+                            }
+                            FailCount = 0;
+                            New_SaveNoiseInfo(fileName, false, startVoltage + (i * voltageStep), _spiSpeed, core.GetSensorWidth(), core.GetSensorHeight(), frame, AverageNum);
+                            string UP_DOWN = null;
+                            if (voltageStep > 0.0)
+                            {
+                                UP_DOWN = "UP";
+                            }
+                            else
+                            {
+                                UP_DOWN = "DOWN";
+                            }
+
+                            if (i < range - 1)
+                            {
+                                if (IsMic24045 == false)
+                                {
+                                    tektronix.PS2230_30_1_VOLTageLevelUpDwon(powerChannel[0], UP_DOWN);
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+                   
+                
+               
+               
+            }
 
             progressBar1.Value = Counter * 100 / shmoo_Times;
         }
@@ -1990,8 +2860,8 @@ namespace PG_UI2
 
             return frame;
         }
-
-        private int[] New_SaveImage_flow(string fileName, int capturenum)
+        byte[][] captureFrame;
+        private int[] New_SaveImage_flow(string fileName, int capturenum,bool crc=false)
         {
             printLog("Save image data");
 
@@ -2003,42 +2873,114 @@ namespace PG_UI2
             string fileBMP_s = baseDir + "Image_" + myDateString + "_rev" + numericUpDownDocVer.Text + "_" + fileName;
             if (!Directory.Exists(baseDir))
                 Directory.CreateDirectory(baseDir);
-            core.SensorActive(true);
-
+            
             var frameList = new Frame<int>[capturenum];
-            for (int i = 0; i < capturenum + 4; i++)
+            if (crc == true) 
             {
-                if (CoreFactory.Core.TryGetFrame(out var data) == false ||
-                    data.Pixels.Length != data.Size.RectangleArea())
+                if (!_op.IsNull() && _op is Tyrafos.OpticalSensor.TQ121JA tq121j) 
                 {
-                    MyMessageBox.ShowError("Get Image Fail !!!");
-                    return null;
-                }
-                else
-                {
-                    if (i >= 4)
-                        frameList[i - 4] = new Frame<int>(data.Pixels.ConvertAll(x => (int)x), data.MetaData, data.Pattern);
-                }
+                    bool ret = false;
+                    if (captureFrame != null)
+                    {
+                        for (int i = 0; i < captureFrame.Length; i++) captureFrame[i] = null;
+                        captureFrame = null;
+                    }
+                    int bl = tq121j.GetBurstLength();
+                    captureFrame = new byte[bl][];
+                    int capCount = 0;
+                    printLog("Start Cap image");
+                    tq121j.Play();
+                    Thread.Sleep(5);
+                    for (int i = 0; i < bl; i++)
+                    {
+                        ret = tq121j.TryGetRawFrame(i, out captureFrame[i]);
+                        if (ret == false) 
+                        {
+                            Thread.Sleep(10);
+                            ret = tq121j.TryGetRawFrame(i, out captureFrame[i]);
+                        }
+                        if (ret == false) 
+                        {
+                            printLog("Images Len:"+ capCount);
+                            return null;
+                        }
+                        if (!ret) break;
+                        capCount++;
+                    }
+                    tq121j.Stop();
+                    printLog("Stop Cap image");
+                    if (capCount == capturenum) 
+                    {
+                        for (int i = 0; i < capturenum; i++)
+                        {
+                           
+                            ushort[] pixels = null;
+                            var size = tq121j.MetaData.FrameSize;
+                            if (tq121j.MetaData.PixelFormat == Tyrafos.PixelFormat.RAW10)
+                                pixels = Tyrafos.Algorithm.Converter.MipiRaw10ToTenBit(captureFrame[i], size);
+                            else
+                            {
+                                pixels = Array.ConvertAll(captureFrame[i], x => (ushort)x);
+                            }
 
+                            var frame1 = new Frame<ushort>(pixels, tq121j.MetaData, null);
+                            frame1.PixelFormat = tq121j.MetaData.PixelFormat;
+                            frameList[i] = new Frame<int>(frame1.Pixels.ConvertAll(x => (int)x), frame1.MetaData, frame1.Pattern);
+                        }
+                       
+                    }
+                    
+                }
+               
+            }
+            else
+            {
+                printLog("Start Cap image");
+                core.SensorActive(true);
+                for (int i = 0; i < capturenum + 4; i++)
+                {
+                    if (CoreFactory.Core.TryGetFrame(out var data) == false ||
+                        data.Pixels.Length != data.Size.RectangleArea())
+                    {
+                        MyMessageBox.ShowError("Get Image Fail !!!");
+                        return null;
+                    }
+                    else
+                    {
+                        if (i >= 4)
+                            frameList[i - 4] = new Frame<int>(data.Pixels.ConvertAll(x => (int)x), data.MetaData, data.Pattern);
+                    }
+                }
+                printLog("Stop Cap image");
             }
 
             int count = 0;
             Total_Average_Frame = new int[frameList.Length][];
-
+            Tyrafos.PixelFormat pixelFormat = Factory.GetOpticalSensor().GetPixelFormat();
             foreach (var item in frameList)
             {
+
                 int w = item.Pixels.Length;
                 Total_Average_Frame[count] = new int[w];
                 byte[] frame_s = new byte[w];
                 for (int i = 0; i < frame_s.Length; i++)
                 {
-                    int temp = item.Pixels[i] >> 2;
-                    frame_s[i] = (byte)temp;
-                    Total_Average_Frame[count][i] = item.Pixels[i];
+                    if (pixelFormat == Tyrafos.PixelFormat.RAW8)
+                    {
+                        frame_s[i] = (byte)item.Pixels[i];
+                        Total_Average_Frame[count][i] = item.Pixels[i];
+                    }
+                    else if (pixelFormat == Tyrafos.PixelFormat.RAW10) 
+                    {
+                        int temp = item.Pixels[i] >> 2;
+                        frame_s[i] = (byte)temp;
+                        Total_Average_Frame[count][i] = item.Pixels[i];
+                    }
+                   
                 }
                 fileBMP_s = string.Format("{0}_{1}.bmp", fileBMP_s, count++);
                 // save .bmp
-                Bitmap bmp_s = Tyrafos.Algorithm.Converter.ToGrayBitmap(frame_s, new Size(core.GetSensorWidth(), core.GetSensorHeight()));
+                Bitmap bmp_s = Tyrafos.Algorithm.Converter.ToGrayBitmap(frame_s, new System.Drawing.Size(core.GetSensorWidth(), core.GetSensorHeight()));
                 bmp_s.Save(fileBMP_s);
 
             }
@@ -2047,34 +2989,66 @@ namespace PG_UI2
             Total_raw_Frame = Total_int_Array(Total_Average_Frame);
 
             byte[] frame = new byte[frameAverage.Size.Width * frameAverage.Size.Height];
-            for (int i = 0; i < frame.Length; i++)
+            if (pixelFormat == Tyrafos.PixelFormat.RAW8)
             {
-                int temp = frameAverage.Pixels[i] >> 2;
-                frame[i] = (byte)temp;
+                for (int i = 0; i < frame.Length; i++)
+                {
+                    frame[i] = (byte)frameAverage.Pixels[i];
+                }
             }
+            else if (pixelFormat == Tyrafos.PixelFormat.RAW10) 
+            {
+                for (int i = 0; i < frame.Length; i++)
+                {
+                    int temp = frameAverage.Pixels[i] >> 2;
+                    frame[i] = (byte)temp;
+                }
+            }
+          
+
             int[] mIntRawData = frameAverage.Pixels;
 
             uint mDataSize = (uint)(frameAverage.Size.Width * frameAverage.Size.Height);
-            byte[] raw10bit = new byte[2 * mDataSize];
-
-            for (int i = 0; i < mDataSize; i++)
+            if (pixelFormat == Tyrafos.PixelFormat.RAW10)
             {
-                raw10bit[2 * i] = (byte)(mIntRawData[i] / 256);
-                raw10bit[2 * i + 1] = (byte)(mIntRawData[i] % 256);
+                byte[] raw10bit = new byte[2 * mDataSize];
+                for (int i = 0; i < mDataSize; i++)
+                {
+                    raw10bit[2 * i] = (byte)(mIntRawData[i] / 256);
+                    raw10bit[2 * i + 1] = (byte)(mIntRawData[i] % 256);
+                }
+
+                // save .bmp
+                Bitmap bmp = Tyrafos.Algorithm.Converter.ToGrayBitmap(frame, new Size(core.GetSensorWidth(), core.GetSensorHeight()));
+                bmp.Save(fileBMP);
+
+                // save .raw
+                File.WriteAllBytes(fileRAW, raw10bit);
             }
+            else if (pixelFormat == Tyrafos.PixelFormat.RAW8) 
+            {
+                byte[] raw8bit = new byte[mDataSize];
+                for (int i = 0; i < mDataSize; i++)
+                {
+                    raw8bit[i] = (byte)(mIntRawData[i]);
+                }
 
-            // save .bmp
-            Bitmap bmp = Tyrafos.Algorithm.Converter.ToGrayBitmap(frame, new Size(core.GetSensorWidth(), core.GetSensorHeight()));
-            bmp.Save(fileBMP);
+                // save .bmp
+                Bitmap bmp = Tyrafos.Algorithm.Converter.ToGrayBitmap(frame, new Size(core.GetSensorWidth(), core.GetSensorHeight()));
+                bmp.Save(fileBMP);
 
-            // save .raw
-            File.WriteAllBytes(fileRAW, raw10bit);
+                // save .raw
+                File.WriteAllBytes(fileRAW, raw8bit);
+            }
+           
 
             return mIntRawData;
+
         }
 
         private void SaveImage(string fileName)
         {
+           
             printLog("Save image data");
 
             string myDateString = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
@@ -2105,6 +3079,7 @@ namespace PG_UI2
 
         public void New_SaveNoiseInfo(string fileName, bool AE, double voltage, int SPISpeed, int width, int height, byte[] data, int avernum)
         {
+            Tyrafos.PixelFormat pixelFormat = Factory.GetOpticalSensor().GetPixelFormat();
             printLog("Save noise info");
 
             string myDateString = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
@@ -2658,11 +3633,30 @@ namespace PG_UI2
         {
             try
             {
-                IsScopeConnet = keysight.DSOX2004A_Initialize(keysightScopeAddr);
-                IsMultiMeterConnect = tektronix.DMM6500_Initialize(tektronixMultiMeterAddr);
-                IsPowerConnect = tektronix.PS2230_30_1_Initialize(tektronixPowAddr);
+                if (Mic24045_checkedListBox.Checked) 
+                {
+                    IsPowerConnect = true;
+                    IsScopeConnet = true;
+                    IsMultiMeterConnect = true;
+                    IsMic24045 = true;
+                    printLog("\r\n***Device Status***\r\nScope: " + IsScopeConnet + " MultiMeter: " + IsMultiMeterConnect + " Power: " + IsPowerConnect);
+                    var device = (Tyrafos.DeviceControl.MIC24045.SLAVEID)Enum.Parse(typeof(Tyrafos.DeviceControl.MIC24045.SLAVEID), Tyrafos.DeviceControl.MIC24045.SLAVEID.STM32F723_GIANT_BOARD.ToString());
+                    var enable = true;
+                    Tyrafos.DeviceControl.MIC24045.SetEnableStatus(device, enable);
+                }
+                else
+                {
+                    var device = (Tyrafos.DeviceControl.MIC24045.SLAVEID)Enum.Parse(typeof(Tyrafos.DeviceControl.MIC24045.SLAVEID), Tyrafos.DeviceControl.MIC24045.SLAVEID.STM32F723_GIANT_BOARD.ToString());
+                    var enable = false;
+                    Tyrafos.DeviceControl.MIC24045.SetEnableStatus(device, enable);
+                    IsMic24045 = false;
+                    IsScopeConnet = keysight.DSOX2004A_Initialize(keysightScopeAddr);
+                    IsMultiMeterConnect = tektronix.DMM6500_Initialize(tektronixMultiMeterAddr);
+                    IsPowerConnect = tektronix.PS2230_30_1_Initialize(tektronixPowAddr);
 
-                printLog("\r\n***Device Status***\r\nScope: " + IsScopeConnet + " MultiMeter: " + IsMultiMeterConnect + " Power: " + IsPowerConnect);
+                    printLog("\r\n***Device Status***\r\nScope: " + IsScopeConnet + " MultiMeter: " + IsMultiMeterConnect + " Power: " + IsPowerConnect);
+                }
+               
             }
             catch (Exception ex)
             {
@@ -3559,46 +4553,77 @@ namespace PG_UI2
 
             Type myType = typeof(Save_NoiseMember);
             PropertyInfo[] myPropInfo = myType.GetProperties();
-
-            if (shmooSpiSpeed_checkedListBox.GetItemChecked(0))
+            _op = Tyrafos.Factory.GetOpticalSensor();
+            if (_op is Tyrafos.OpticalSensor.TQ121JA tq121) 
             {
-                var columnFromRange3_2 = Regsheet.Range("C3:C14").FirstColumn();
-                DrawHeaderItem(columnFromRange3_2, "6");
-
-                int TypeRowIdx = 3;
-                foreach (var item in myPropInfo)
+                if (shmooSpiSpeed_checkedListBox.GetItemChecked(0))
                 {
-                    Regsheet.Cell(TypeRowIdx++, colIdx).Value = item.Name;
-                }
-                RowIdx++;
-            }
+                    var columnFromRange3_3 = Regsheet.Range("C15:C26").FirstColumn();
+                    DrawHeaderItem(columnFromRange3_3, "12");
 
-            if (shmooSpiSpeed_checkedListBox.GetItemChecked(1))
+                    int TypeRowIdx = 15;
+                    foreach (var item in myPropInfo)
+                    {
+                        Regsheet.Cell(TypeRowIdx++, colIdx).Value = item.Name;
+                    }
+                    RowIdx++;
+                }
+
+                if (shmooSpiSpeed_checkedListBox.GetItemChecked(1))
+                {
+                    int TypeRowIdx = 27;
+                    var columnFromRange3_4 = Regsheet.Range("C27:C38").FirstColumn();
+                    DrawHeaderItem(columnFromRange3_4, "24");
+
+                    foreach (var item in myPropInfo)
+                    {
+                        Regsheet.Cell(TypeRowIdx++, colIdx).Value = item.Name;
+                    }
+                    RowIdx++;
+                }
+            }
+            else
             {
-                var columnFromRange3_3 = Regsheet.Range("C15:C26").FirstColumn();
-                DrawHeaderItem(columnFromRange3_3, "12");
-
-                int TypeRowIdx = 15;
-                foreach (var item in myPropInfo)
+                if (shmooSpiSpeed_checkedListBox.GetItemChecked(0))
                 {
-                    Regsheet.Cell(TypeRowIdx++, colIdx).Value = item.Name;
+                    var columnFromRange3_2 = Regsheet.Range("C3:C14").FirstColumn();
+                    DrawHeaderItem(columnFromRange3_2, "6");
+
+                    int TypeRowIdx = 3;
+                    foreach (var item in myPropInfo)
+                    {
+                        Regsheet.Cell(TypeRowIdx++, colIdx).Value = item.Name;
+                    }
+                    RowIdx++;
                 }
-                RowIdx++;
-            }
 
-            if (shmooSpiSpeed_checkedListBox.GetItemChecked(2))
-            {
-                int TypeRowIdx = 27;
-                var columnFromRange3_4 = Regsheet.Range("C27:C38").FirstColumn();
-                DrawHeaderItem(columnFromRange3_4, "24");
-
-                foreach (var item in myPropInfo)
+                if (shmooSpiSpeed_checkedListBox.GetItemChecked(1))
                 {
-                    Regsheet.Cell(TypeRowIdx++, colIdx).Value = item.Name;
-                }
-                RowIdx++;
-            }
+                    var columnFromRange3_3 = Regsheet.Range("C15:C26").FirstColumn();
+                    DrawHeaderItem(columnFromRange3_3, "12");
 
+                    int TypeRowIdx = 15;
+                    foreach (var item in myPropInfo)
+                    {
+                        Regsheet.Cell(TypeRowIdx++, colIdx).Value = item.Name;
+                    }
+                    RowIdx++;
+                }
+
+                if (shmooSpiSpeed_checkedListBox.GetItemChecked(2))
+                {
+                    int TypeRowIdx = 27;
+                    var columnFromRange3_4 = Regsheet.Range("C27:C38").FirstColumn();
+                    DrawHeaderItem(columnFromRange3_4, "24");
+
+                    foreach (var item in myPropInfo)
+                    {
+                        Regsheet.Cell(TypeRowIdx++, colIdx).Value = item.Name;
+                    }
+                    RowIdx++;
+                }
+            }
+               
             //資料起始列位置
             int conlumnIndex = 5;
             int bmpcount = 0;
@@ -3612,7 +4637,7 @@ namespace PG_UI2
                     rowIdx = 15;
                 else
                     rowIdx = 27;
-
+                
                 if (item.AVDD_V == shmooStartVoltage)
                 {
                     conlumnIndex = 5;

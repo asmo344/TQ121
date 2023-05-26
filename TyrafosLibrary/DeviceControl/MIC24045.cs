@@ -129,7 +129,7 @@ namespace Tyrafos.DeviceControl
                     val = (byte)Convert.ToDecimal(temp);
                     val += 0x81;
                 }
-                else if (voltage > 1.950 && voltage <= 3.420)
+                else if (voltage > 1.950 && voltage <= 420)
                 {
                     if (voltage < 1.980)
                         voltage = 1.980;
