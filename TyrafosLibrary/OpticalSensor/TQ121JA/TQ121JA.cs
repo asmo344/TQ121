@@ -132,18 +132,18 @@ namespace Tyrafos.OpticalSensor
         {
             get
             {
-                byte page = 1, addr = 0x40;
+                byte addr = 0xC0;
                 ReadRegister(addr, out byte value);
-                if ((value & 0b1) == 1)
+                if (((value & 0b10000) >> 4) == 1)
                     return true;
                 else
                     return false;
             }
             set
             {
-                ReadRegister(0x40, out var temp);
-                if (value) temp = (byte)(temp | 0b1);
-                else temp = (byte)(temp & 0b1111_1110);
+                ReadRegister(0xC0, out var temp);
+                if (value) temp = (byte)(temp | 0b10000);
+                else temp = (byte)(temp & 0b1110_1111);
                 WriteRegister(0x40, temp);
             }
         }
@@ -1098,12 +1098,12 @@ namespace Tyrafos.OpticalSensor
                 w = roiSize.Width - x;
             }
 
-            if (y > roiSize.Height - 1)
+            if (outWinPoint.Y > roiSize.Height - 1)
             {
                 y = roiSize.Height - 1;
                 h = 0;
             }
-            else if (y + h > roiSize.Height)
+            else if (outWinPoint.Y + h > roiSize.Height)
             {
                 h = roiSize.Height - y;
             }
