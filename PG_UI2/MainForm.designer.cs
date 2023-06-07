@@ -130,22 +130,24 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.DothinkeyFormToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReliabilityTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.meanVsTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OffLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CharacterizationComapreOfflineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ImageProcessOfflineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToDoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.T7805TimingGenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SensorImagePanel = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.Tittle_Panel = new System.Windows.Forms.Panel();
             this.Tittle_Im = new System.Windows.Forms.PictureBox();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.Back_Ground = new System.Windows.Forms.PictureBox();
             this.Panel_DataFlow = new System.Windows.Forms.Panel();
-            this.meanVsTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sidepanel.SuspendLayout();
             this.MainFormInfo.SuspendLayout();
             this.Toolbar.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.Tittle_Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Tittle_Im)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Back_Ground)).BeginInit();
@@ -955,14 +957,14 @@
             // EngineerModeToolStripMenuItem
             // 
             this.EngineerModeToolStripMenuItem.Name = "EngineerModeToolStripMenuItem";
-            this.EngineerModeToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.EngineerModeToolStripMenuItem.Size = new System.Drawing.Size(242, 34);
             this.EngineerModeToolStripMenuItem.Text = "Engineer Mode";
             this.EngineerModeToolStripMenuItem.Click += new System.EventHandler(this.EngineerModeToolStripMenuItem_Click);
             // 
             // OptionToolStripMenuItem
             // 
             this.OptionToolStripMenuItem.Name = "OptionToolStripMenuItem";
-            this.OptionToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.OptionToolStripMenuItem.Size = new System.Drawing.Size(242, 34);
             this.OptionToolStripMenuItem.Text = "Option";
             this.OptionToolStripMenuItem.Click += new System.EventHandler(this.OptionToolStripMenuItem_Click);
             // 
@@ -1299,7 +1301,7 @@
             // TQ121ToolStripMenuItem
             // 
             this.TQ121ToolStripMenuItem.Name = "TQ121ToolStripMenuItem";
-            this.TQ121ToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.TQ121ToolStripMenuItem.Size = new System.Drawing.Size(213, 34);
             this.TQ121ToolStripMenuItem.Text = " TQ121 Test";
             this.TQ121ToolStripMenuItem.Click += new System.EventHandler(this.TQ121ToolStripMenuItem_Click);
             // 
@@ -1347,6 +1349,13 @@
             this.ReliabilityTestToolStripMenuItem.Size = new System.Drawing.Size(319, 34);
             this.ReliabilityTestToolStripMenuItem.Text = "Reliability Test";
             this.ReliabilityTestToolStripMenuItem.Click += new System.EventHandler(this.ReliabilityTestToolStripMenuItem_Click);
+            // 
+            // meanVsTimeToolStripMenuItem
+            // 
+            this.meanVsTimeToolStripMenuItem.Name = "meanVsTimeToolStripMenuItem";
+            this.meanVsTimeToolStripMenuItem.Size = new System.Drawing.Size(319, 34);
+            this.meanVsTimeToolStripMenuItem.Text = "Mean vs Time";
+            this.meanVsTimeToolStripMenuItem.Click += new System.EventHandler(this.meanVsTimeToolStripMenuItem_Click);
             // 
             // OffLineToolStripMenuItem
             // 
@@ -1402,6 +1411,16 @@
             this.SensorImagePanel.Size = new System.Drawing.Size(781, 463);
             this.SensorImagePanel.TabIndex = 9;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.White;
+            this.pictureBox1.Location = new System.Drawing.Point(837, 74);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(159, 84);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
             // Tittle_Panel
             // 
             this.Tittle_Panel.Controls.Add(this.Tittle_Im);
@@ -1452,17 +1471,12 @@
             this.Panel_DataFlow.Size = new System.Drawing.Size(1006, 100);
             this.Panel_DataFlow.TabIndex = 19;
             // 
-            // meanVsTimeToolStripMenuItem
-            // 
-            this.meanVsTimeToolStripMenuItem.Name = "meanVsTimeToolStripMenuItem";
-            this.meanVsTimeToolStripMenuItem.Size = new System.Drawing.Size(319, 34);
-            this.meanVsTimeToolStripMenuItem.Text = "Mean vs Time";
-            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1036, 750);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.Panel_DataFlow);
             this.Controls.Add(this.Tittle_Panel);
             this.Controls.Add(this.SensorImagePanel);
@@ -1488,6 +1502,7 @@
             this.Toolbar.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.Tittle_Panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Tittle_Im)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Back_Ground)).EndInit();
@@ -1619,5 +1634,6 @@
         private System.Windows.Forms.ToolStripMenuItem tQ121JToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem TQ121ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem meanVsTimeToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

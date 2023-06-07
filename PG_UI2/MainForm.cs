@@ -90,6 +90,7 @@ namespace PG_UI2
 
         private TQ121Test tq121Test;
 
+        private MeanvsTime meanvsTime;
         private DvsOfflineShowForm dVSShowForm;
 
         public MainForm()
@@ -365,7 +366,7 @@ namespace PG_UI2
             SensorInfoUpdate();
 
             core.SensorActive(true);
-
+          
             gFrameHandleThread = null;
             gFrameHandleThread = new Thread(this.FrameHandle);
             gFrameHandleThread.Start();
@@ -2426,6 +2427,24 @@ namespace PG_UI2
 
             tq121Test.Dispose();
             tq121Test = null;
+        }
+
+        private void meanVsTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (meanvsTime == null)
+            {
+                meanvsTime = new MeanvsTime(core);
+                meanvsTime.Show();
+                meanvsTime.FormClosed += meanvsTimeForm_Closed;
+            }
+        }
+        private void meanvsTimeForm_Closed(object sender, FormClosedEventArgs e)
+        {
+            if (meanvsTime == null)
+                return;
+
+            meanvsTime.Dispose();
+            meanvsTime = null;
         }
     }
 
