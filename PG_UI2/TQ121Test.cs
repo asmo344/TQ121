@@ -834,7 +834,7 @@ namespace PG_UI2
                 {
                     if (string.IsNullOrEmpty(Out_window_num.Text))
                     {
-                        MessageBox.Show("Reg scan number is empty");
+                        MessageBox.Show("Out Window number is empty");
                         return;
                     }
 
@@ -843,12 +843,12 @@ namespace PG_UI2
                 }
                 if (OTF_Window_checkbox.Checked)
                 {
-                    if (string.IsNullOrEmpty(Out_window_num.Text))
+                    if (string.IsNullOrEmpty(OTF_num.Text))
                     {
-                        MessageBox.Show("Reg scan number is empty");
+                        MessageBox.Show("OTF Window number is empty");
                         return;
                     }
-                    NumMax = Int32.Parse(Out_window_num.Text);
+                    NumMax = Int32.Parse(OTF_num.Text);
                     OTFTestFlow();
                 }
 
