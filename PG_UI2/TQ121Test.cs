@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using CoreLib;
 using Hardware;
@@ -19,10 +13,12 @@ using System.Reflection;
 using System.Diagnostics;
 using Excel = Microsoft.Office.Interop.Excel;
 using ClosedXML.Excel;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
-using OfficeOpenXml.Drawing.Chart;
 using Tyrafos;
 using ClosedXML.Excel.Drawings;
+using System.Collections.Generic;
+using DocumentFormat.OpenXml.Wordprocessing;
+using System.ComponentModel;
+using Tyrafos.OpticalSensor;
 
 namespace PG_UI2
 {
@@ -57,11 +53,13 @@ namespace PG_UI2
         List<RegularTestResult> EncryptPart = new List<RegularTestResult>();
         List<RegularTestResult> InterfacePart = new List<RegularTestResult>();
         List<OutputWindowData> outputWindowdatas = new List<OutputWindowData>();
+        private delegate void UpdateUI();
         public TQ121Test(Core mCore)
         {
             InitializeComponent();
             //ItemOnOff(false);
             core = mCore;
+            _op = Tyrafos.Factory.GetOpticalSensor();
             tektronix = new Tektronix();
             keysight = new InstrumentLib.Keysight();
             TestItem = "";
@@ -69,17 +67,11 @@ namespace PG_UI2
 
             NumTextBox.Text = NumMax.ToString();
             Out_window_num.Text = NumMax.ToString();
-            frame_foot_packet_num.Text = NumMax.ToString();
-            Auto_exposure_num.Text = NumMax.ToString();
-            EFUSE_num.Text = NumMax.ToString();
-            encrypt_num.Text = NumMax.ToString();
-            ROI_num.Text = NumMax.ToString();
-            Interface_num.Text = NumMax.ToString();
-            exposure_full_range_num.Text = NumMax.ToString();
-            Data_format_num.Text = NumMax.ToString();
-            Seamless_mode_num.Text = NumMax.ToString();
-
-
+            OTF_num.Text = NumMax.ToString();
+            OTF_fps.Text = NumMax.ToString();
+            OTF_gain.Text = NumMax.ToString();
+            OTF_intg.Text = NumMax.ToString();
+            OTF_offset.Text = NumMax.ToString();
             TestPatternBinPath = @".\Resources\TestPattern.bin";
             openFileDialog1 = new OpenFileDialog();
 
@@ -101,7 +93,7 @@ namespace PG_UI2
             var op = Tyrafos.Factory.GetOpticalSensor();
             if (!op.IsNull() && op is Tyrafos.OpticalSensor.TQ121JA tq121)
             {
-                tq121.WriteRegister( address, value);
+                tq121.WriteRegister(address, value);
             }
         }
 
@@ -110,7 +102,7 @@ namespace PG_UI2
             var op = Tyrafos.Factory.GetOpticalSensor();
             if (!op.IsNull() && op is Tyrafos.OpticalSensor.TQ121JA tq121)
             {
-                tq121.ReadRegister( address, out var value);
+                tq121.ReadRegister(address, out var value);
                 return value;
             }
             return byte.MinValue;
@@ -145,7 +137,6 @@ namespace PG_UI2
         {
             [Description("編號")]
             public UInt16 No { get; set; }
- 
             [Description("Pass")]
             public bool Pass { get; set; }
             [Description("OW_width")]
@@ -162,7 +153,19 @@ namespace PG_UI2
             public Bitmap Image3 { get; set; }
         }
 
-    
+        public class OTFWindowData 
+        {
+            [Description("編號")]
+            public UInt32 No { get; set; }
+            [Description("OTF_planning_time(ms)")]
+            public long time { get; set; }
+            [Description("mean")]
+            public double mean { get; set; }
+            [Description("Image1")]
+            public byte[] Image1 { get; set; }
+            
+            
+        }
         #region Output Window and ROI
         private void OutputROITestFlow()
         {
@@ -180,7 +183,7 @@ namespace PG_UI2
                         MessageBox.Show(error.ToString());
                         return;
                     }
-                       
+
                     core.SetROI(mROI);
                     OutputROIInit();
                     //SetSensorDataRate(spiSpeed[i]);
@@ -195,9 +198,9 @@ namespace PG_UI2
         {
             _op = Tyrafos.Factory.GetOpticalSensor();
             TestInit(); // 待檢查
-            if ( _op is Tyrafos.OpticalSensor.TQ121JA tq121 ) 
+            if (_op is Tyrafos.OpticalSensor.TQ121JA tq121)
             {
-               // tq121.TestPatternEnable = true;
+                // tq121.TestPatternEnable = true;
             }
         }
         private void OutputROITest()
@@ -230,25 +233,25 @@ namespace PG_UI2
                         Console.WriteLine(H);
                         tq121.SetPosition(new Point(0, ((Height_max - H) / 4 * 2)));
                         tq121.SetSize(new Size(64, H));
-                       
-                       
+
+
                         for (int W = 4; W <= Width_max; W += 4)
                         {
                             this.progressBar.CustomText = string.Format("{0}x{1},({2},{3})", W, H, 0, 0);
-                            
+
                             tq121.SetOutWinSize(new Size(W, H));
                             core.SensorActive(true);
                             bool faultResult = true;
                             Bitmap[] BMP = new Bitmap[3];
                             for (int i = 0; i < 3; i++)
                             {
-                                tq121.TryGetFrame (out var data);
+                                tq121.TryGetFrame(out var data);
                                 if (data.IsNull())
                                 {
                                     faultResult = false;
                                     continue;
                                 }
-                                if (data.Height==0||data.Width==0)
+                                if (data.Height == 0 || data.Width == 0)
                                 {
                                     faultResult = false;
                                     continue;
@@ -259,18 +262,18 @@ namespace PG_UI2
                                     {
                                         if (dh < (Height_max / 2))
                                         {
-                                            if (data.Pixels[dh* data.Size.Width+dw]!= dh * Width_max + dw)
+                                            if (data.Pixels[dh * data.Size.Width + dw] != dh * Width_max + dw)
                                             {
                                                 faultResult = false;
-                                               
+
                                             }
                                         }
                                         else
                                         {
-                                            if (data.Pixels[dh * data.Size.Width + dw] != (1023-((dh-16)* Width_max + dw)))
+                                            if (data.Pixels[dh * data.Size.Width + dw] != (1023 - ((dh - 16) * Width_max + dw)))
                                             {
                                                 faultResult = false;
-                                               
+
                                             }
                                         }
                                         if (faultResult == false)
@@ -306,7 +309,7 @@ namespace PG_UI2
             }
         }
 
-       
+
         #endregion
         string Item
         {
@@ -419,7 +422,7 @@ namespace PG_UI2
 
         private void ItemOnOff(bool OnOff)
         {
-           
+
         }
 
         private void SaveResult(byte[] Data, int Width, int Height, int num)
@@ -494,15 +497,16 @@ namespace PG_UI2
 
             Spi24McheckBox.Checked = true;
         }
-
-        public XLWorkbook Export(List<OutputWindowData> outputWindowDatas)
+       
+        public XLWorkbook Export()
         {
             //建立 excel 物件
             XLWorkbook workbook = new XLWorkbook();
             //加入 excel 工作表名為 `Report`
-
+            List<OutputWindowData> outputWindowDatas = outputWindowdatas;
             if (outputWindowDatas.Count > 0)
             {
+                
                 var outputWindow_sheet = workbook.Worksheets.Add("Output Window");
                 int colIdx2 = 1;
                 Type myType = typeof(OutputWindowData);
@@ -586,7 +590,7 @@ namespace PG_UI2
                         else if (Type == "Pass")
                         {
                             string str = "";
-                            if (item.Pass==true)
+                            if (item.Pass == true)
                             {
                                 str = "Pass";
                                 outputWindow_sheet.Cell(rowIdx, conlumnIndex).Style.Fill.BackgroundColor = XLColor.Green;
@@ -630,13 +634,169 @@ namespace PG_UI2
                     outputWindow_sheet.Row(j).Height = 100;
 
             }
+            if (outOTFFrameList.Count > 0) 
+            {
+                var OTF_sheet = workbook.Worksheets.Add("OTF Change");
+                int colIdx2 = 1;
+                Type myType = typeof(OTFWindowData);
+                PropertyInfo[] myPropInfo = myType.GetProperties();
+                foreach (var item in myPropInfo)
+                {
+                    OTF_sheet.Cell(1, colIdx2++).Value = item.Name;
+                }
+                //修改標題列Style
+                var header = OTF_sheet.Range("A1:H1");
+                header.Style.Fill.BackgroundColor = XLColor.Blue;
+                header.Style.Font.FontColor = XLColor.Yellow;
+                header.Style.Font.Bold = true;
+                header.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                int rowIdx = 2;
 
+                int bmpcount = 0;
+                //每筆資料欄位起始位置
+                int conlumnIndex = 1;
+                foreach (var item in outOTFFrameList) 
+                {
+                    //每筆資料欄位起始位置
+                    conlumnIndex = 1;
+                    foreach (var jtem in item.GetType().GetProperties()) 
+                    {
+                        string _type = jtem.Name;
+                        switch (_type)
+                        {
+                            case "Image1":
+                                using (MemoryStream stream = new MemoryStream())
+                                {
+                                    if (item.Image1 != null)
+                                    {
+                                        Bitmap bitmap = null;
+                                        if (!_op.IsNull() && _op is Tyrafos.OpticalSensor.TQ121JA tq121J)
+                                        {
+                                            var _width = tq121J.Width;
+                                            var _height = tq121J.Height;
+                                            
+                                            ushort[] pixels = null;
+                                            if (tq121J.GetPixelFormat() == Tyrafos.PixelFormat.RAW10)
+                                                pixels = Tyrafos.Algorithm.Converter.MipiRaw10ToTenBit(item.Image1, new System.Drawing.Size(_width, _height));
+                                            else
+                                                pixels = Array.ConvertAll(item.Image1, x => (ushort)x);
+                                            Frame<ushort> frame = new Frame<ushort>(pixels,tq121J.MetaData,null);
+                                            bitmap = frame.ToBitmap();
+                                            
+                                        }
+                                        
+                                        // Save image to stream.
+                                        bitmap.Save(stream, ImageFormat.Bmp);
+
+                                        // add picture and move 
+                                        IXLPicture logo = OTF_sheet.AddPicture(stream, XLPictureFormat.Bmp, bmpcount.ToString());
+                                        logo.MoveTo(OTF_sheet.Cell(rowIdx, conlumnIndex));
+                                        bmpcount++;
+
+                                    }
+                                }
+                                break;
+                            case "mean":
+                                var height = core.GetSensorHeight();
+                                double mean = 0;
+                                if (!_op.IsNull() && _op is Tyrafos.OpticalSensor.TQ121JA tq121) 
+                                {
+                                    var _width = tq121.Width;
+                                    var _height = tq121.Height;
+
+                                    ushort[] pixels = null;
+                                    if (tq121.GetPixelFormat() == Tyrafos.PixelFormat.RAW10)
+                                        pixels = Tyrafos.Algorithm.Converter.MipiRaw10ToTenBit(item.Image1,new System.Drawing.Size(_width,_height));
+                                    else
+                                        pixels = Array.ConvertAll(item.Image1, x => (ushort)x);
+                                    mean = pixels.Mean();
+                                }
+                               
+                                OTF_sheet.Cell(rowIdx, conlumnIndex).Value = mean.ToString("0.000");
+                                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Fill.BackgroundColor = XLColor.Linen;
+                                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Font.Bold = true;
+                                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
+                                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                                break;
+                            default:
+                                OTF_sheet.Cell(rowIdx, conlumnIndex).Value = jtem.GetValue(item, null);
+                                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Fill.BackgroundColor = XLColor.Linen;
+                                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Font.Bold = true;
+                                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
+                                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                               
+                                break;
+                        }
+                        conlumnIndex++;
+
+                    }
+                    OTF_sheet.Row(rowIdx).Height = 50;
+                    rowIdx++;
+                }
+                // 设定前 和设定后
+                rowIdx = 2;
+                conlumnIndex = 10;
+                for (int j = 0; j < S_K.Length; j++)
+                {
+                    OTF_sheet.Cell(rowIdx, conlumnIndex).Value = S_K[j].ToString();
+                    OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Fill.BackgroundColor = XLColor.Red;
+                    OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Font.Bold = true;
+                    OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
+                    OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    conlumnIndex++;
+                }
+                rowIdx++;
+                conlumnIndex = 10;
+                for (int j = 0; j < O_K.Length; j++)
+                {
+                    OTF_sheet.Cell(rowIdx, conlumnIndex).Value = O_K[j].ToString();
+                    OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Fill.BackgroundColor = XLColor.Linen;
+                    OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Font.Bold = true;
+                    OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
+                    OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    conlumnIndex++;
+                }
+
+                rowIdx++;
+                conlumnIndex = 10;
+                for (int j = 0; j < N_K.Length; j++)
+                {
+                    OTF_sheet.Cell(rowIdx, conlumnIndex).Value = N_K[j].ToString();
+                    OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Fill.BackgroundColor = XLColor.Linen;
+                    OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Font.Bold = true;
+                    OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
+                    OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                    OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                    conlumnIndex++;
+                }
+
+                rowIdx = 3;
+                conlumnIndex = 9;
+                OTF_sheet.Cell(rowIdx, conlumnIndex).Value = "修改前";
+                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Fill.BackgroundColor = XLColor.AliceBlue;
+                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Font.Bold = true;
+                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
+                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                rowIdx++;
+                OTF_sheet.Cell(rowIdx, conlumnIndex).Value = "修改后";
+                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Fill.BackgroundColor = XLColor.AliceBlue;
+                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Font.Bold = true;
+                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
+                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                OTF_sheet.Cell(rowIdx, conlumnIndex).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                progressBar.Value = 100;
+            }
             return workbook;
         }
 
-     
 
-      
+
+
 
         void initailExcel()
         {
@@ -667,8 +827,8 @@ namespace PG_UI2
         private void Total_start_Click(object sender, EventArgs e)
         {
             OutWindowConsole.Text = "";
-           
-            if (Out_Window_checkbox.Checked || frame_foot_packet_checkbox.Checked || Auto_exposure_checkbox.Checked || efuse_checkbox.Checked || Encrypt_checkbox.Checked || ROI_checkbox.Checked || SPI_checkbox.Checked || exposure_testing_checkbox.Checked || Data_Format_checkbox.Checked || seamless_mode_checkbox.Checked)
+
+            if (Out_Window_checkbox.Checked || OTF_Window_checkbox.Checked)
             {
                 if (Out_Window_checkbox.Checked)
                 {
@@ -681,43 +841,42 @@ namespace PG_UI2
                     NumMax = Int32.Parse(Out_window_num.Text);
                     OutputROITestFlow();
                 }
-              
+                if (OTF_Window_checkbox.Checked)
+                {
+                    if (string.IsNullOrEmpty(Out_window_num.Text))
+                    {
+                        MessageBox.Show("Reg scan number is empty");
+                        return;
+                    }
+                    NumMax = Int32.Parse(Out_window_num.Text);
+                    OTFTestFlow();
+                }
+
             }
             else
             {
                 MessageBox.Show("Please check at least one test!!!");
                 return;
             }
-
-            if (exposure_testing_checkbox.Checked && !Out_Window_checkbox.Checked && !frame_foot_packet_checkbox.Checked && !Auto_exposure_checkbox.Checked && !Encrypt_checkbox.Checked && !SPI_checkbox.Checked)
-            {
-                // do nothing
-            }
-            else
-            {
-                string basedir = "TY7805_Test_Report\\";
-                if (!Directory.Exists(basedir))
-                    Directory.CreateDirectory(basedir);
-                string filepath = $@"{DateTime.Now.ToString("yyyyMMddHHmmss")}.xlsx";
-                filepath = basedir + filepath;
-                //取得轉為 xlsx 的物件
-                var xlsx = Export(outputWindowdatas);
-                //存檔至指定位置
-                xlsx.SaveAs(filepath);
-                string str = Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory() + "\\" + filepath);
-                //string completemessage = string.Format("Test Complete , Report Save at:{0}", str + filepath);
-                //MessageBox.Show(completemessage);
-                string completemessage = string.Format("Test Complete , Report Save at:{0}", str);
-                MessageBox.Show(completemessage);
-                System.Diagnostics.Process.Start("Explorer.exe", str);
-                
-            }
+            string basedir = "TQ121_Test_Report\\";
+            if (!Directory.Exists(basedir))
+                Directory.CreateDirectory(basedir);
+            string filepath = $@"{DateTime.Now.ToString("yyyyMMddHHmmss")}.xlsx";
+            filepath = basedir + filepath;
+            //取得轉為 xlsx 的物件
+            var xlsx = Export();
+            //存檔至指定位置
+            xlsx.SaveAs(filepath);
+            string str = Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory() + "\\" + filepath);
+            //string completemessage = string.Format("Test Complete , Report Save at:{0}", str + filepath);
+            //MessageBox.Show(completemessage);
+            string completemessage = string.Format("Test Complete , Report Save at:{0}", str);
+            MessageBox.Show(completemessage);
+            System.Diagnostics.Process.Start("Explorer.exe", str);
 
         }
 
 
-
-       
 
         private string GetSpiSpeed(string spiSpeed)
         {
@@ -732,6 +891,95 @@ namespace PG_UI2
 
             return speed;
         }
-       
+
+        #region OTF
+        Stopwatch otf_time;
+        List<OTFWindowData> outOTFFrameList = new List<OTFWindowData>();
+        string[] S_K = {"Fps","Intg","Gain","Offset" };
+        string[] N_K = new string[4];
+        string[] O_K = new string[4];
+        private void OTFTestFlow()
+        {
+            if (!_op.IsNull() && _op is Tyrafos.OpticalSensor.TQ121JA tq121)
+            {
+                var _width = tq121.Width;
+                var _height = tq121.Height;
+
+                num = 1;
+                this.progressBar.Value = 0;
+                this.progressBar.Refresh();
+                UInt32 index = 0;
+                int otf_num = Convert.ToInt32(OTF_num.Text);
+                ushort fps_num = Convert.ToUInt16(OTF_fps.Text);
+                ushort intg = Convert.ToUInt16(OTF_intg.Text);
+                int offset = Convert.ToInt16(OTF_offset.Text);
+                ushort gain = Convert.ToUInt16(OTF_gain.Text);
+                this.OTFWindowConsole.Text = (num).ToString() + "/" + otf_num.ToString();
+                double FPS = tq121.GetFps(); O_K[0] = FPS.ToString();
+                ushort GAIN = tq121.GetGainValue(); O_K[2] = GAIN.ToString();
+                ushort INTG = tq121.GetIntegration(); O_K[1] = INTG.ToString();
+                int OFFSET = tq121.GetOfst(); O_K[3] = OFFSET.ToString();
+                
+                outOTFFrameList.Clear();
+                tq121.IsOTFChanges = true;
+                tq121.OTF_N_Count = otf_num;
+                tq121.SetOTF(fps_num, gain, intg, offset);
+                tq121.Play();
+                double nP = 98 / (double)tq121.OTF_N_Count;
+                index = 0;
+                while (tq121.counts_time.Count <= tq121.OTF_N_Count)
+                {
+                    if (index == 1) 
+                    {
+                        tq121.SetFps(fps_num); N_K[0] = fps_num.ToString();
+                        tq121.SetIntegration(intg); N_K[1] = intg.ToString();
+                        tq121.SetOfst(offset); N_K[3] = offset.ToString();
+                        tq121.SetGainValue(gain); N_K[2] = gain.ToString();
+                        tq121.GrpUpd();
+                    }
+                    this.progressBar.Value = (int)(nP * tq121.counts_time.Count) > 100 ? 100 : (int)(nP * tq121.counts_time.Count);
+                    num = tq121.counts_time.Count;
+                    this.OTFWindowConsole.Text = (num).ToString() + "/" + otf_num.ToString();
+                    this.OTFWindowConsole.Refresh();
+                    this.progressBar.Refresh();
+                    index++;
+                    if (num == tq121.OTF_N_Count) break;
+
+                    UpdateUI update = delegate
+                    {
+                        if (tq121.counts_time.Count > 0) 
+                        {
+                            var t = tq121.counts_time[tq121.counts_time.Count-1];
+                            ushort[] pixels = null;
+                            if (tq121.GetPixelFormat() == Tyrafos.PixelFormat.RAW10)
+                                pixels = Tyrafos.Algorithm.Converter.MipiRaw10ToTenBit(t.data, new System.Drawing.Size(_width, _height));
+                            else
+                                pixels = Array.ConvertAll(t.data, x => (ushort)x);
+                            Frame<ushort> frame = new Frame<ushort>(pixels, tq121.MetaData, null);
+                            pictureBox1.Image = frame.ToBitmap();
+                        }
+                       
+
+                    };
+                    pictureBox1.Invoke(update);
+                }
+                index = 0;
+                foreach (var item in tq121.counts_time)
+                {
+                    
+                    OTFWindowData myStruct = new OTFWindowData();
+                    myStruct.time = item.time;
+                    myStruct.Image1 = item.data;
+                    myStruct.No = index;
+                    outOTFFrameList.Add(myStruct);
+                    index++;
+                }
+                tq121.counts_time.Clear();
+                tq121.Stop();
+
+            }
+        }
+        #endregion
+
     }
 }

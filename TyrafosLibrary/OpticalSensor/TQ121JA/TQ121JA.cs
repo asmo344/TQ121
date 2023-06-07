@@ -31,6 +31,16 @@ namespace Tyrafos.OpticalSensor
         byte[] gFrame;
         private readonly ConcurrentQueue<Frame<ushort>> ContinuouslyPollingFrameFifo = new ConcurrentQueue<Frame<ushort>>();
 
+        // OTF 
+        public bool IsOTFChanges = false;
+        public int OTF_N_Count = 0;
+        public struct OTF_Struce
+        {
+            public byte[] data;
+            public long time;
+        }
+        public List<OTF_Struce> counts_time = new List<OTF_Struce>();
+
         public bool IsRetryTimeAutoSet = false;
         private string HardwareVersion = "JA";
 
@@ -416,6 +426,38 @@ namespace Tyrafos.OpticalSensor
             return fps;
         }
 
+        public void SetFps(ushort fps_value) 
+        {
+            var fps = GetFps();
+            //fm_len = dmy(2) + vfblk_len + awin_vsz + vblk_len
+            UInt32 fm_len = 0;
+            UInt16 vfblk_len = 0, vblk_len = 0;
+            byte reg_h, reg_l, awin_vsz;
+            byte dmy = 2;
+
+            ReadRegister(0x2D, out reg_h);
+            ReadRegister(0x2E, out reg_l);
+            vfblk_len = (UInt16)((reg_h << 8) + reg_l);
+
+            ReadRegister(0x24, out awin_vsz);
+
+            ReadRegister(0x2F, out reg_h);
+            ReadRegister(0x30, out reg_l);
+            vblk_len = (UInt16)((reg_h << 8) + reg_l);
+
+            fm_len = (UInt32)(dmy + vfblk_len + awin_vsz + vblk_len);
+            uint H = GetH();
+            byte tkclk = TCON_CLK;
+            if (fps != fps_value) 
+            {
+                vblk_len = (ushort)Math.Ceiling(((double)(500 * tkclk * 1000) / (double)(H * fps_value) - (dmy + vfblk_len + awin_vsz))); 
+            }
+            reg_h = (byte)(vblk_len >> 8);
+            reg_l = (byte)(vblk_len & 0xff);
+            WriteRegister(0x2F,reg_h);
+            WriteRegister(0x30, reg_l);
+        }
+
         public void GetLedDriving(out byte led0Driving, out int led1DrivingOfst)
         {
             led0Driving = GetLed0Driving();
@@ -610,53 +652,105 @@ namespace Tyrafos.OpticalSensor
                 //gIsKicked = true;
             }
         }
+        #region OTF
+        public void SetOTF(ushort fps, ushort gain, ushort intg, int offset)
+        {
+            _fps = fps;
+            _gain = gain;
+            _intg = intg;
+            _offset = offset;
+        }
+        private ushort _fps = 0;
+        private ushort _gain = 0;
+        private ushort _intg = 0;
+        private int _offset = 0;
+        #endregion
 
         private void PollingFrame()
         {
             gPollingFlag = true;
-            do
+            if (IsOTFChanges == true) 
             {
-                var rawbytes = Factory.GetUsbBase().GetRawPixels();
-                if (rawbytes != null)
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Restart();
+                do
                 {
-                    //GrabCounter++;
-                    //Console.WriteLine("GrabCounter = " + GrabCounter);
-                    //if (frameStatus == FrameStatus.EMPTY)
-                    //{
-                    //gFrame = null;
-                    if (GrabCounter < gFrameSave.Length)
+                    var rawbytes = Factory.GetUsbBase().GetRawPixels();
+                    if (rawbytes != null)
                     {
-                        gFrameSave[GrabCounter] = rawbytes;
-                        GrabCounter++;
+                        var tim = stopwatch.ElapsedMilliseconds; ;
+                        if (GrabCounter < OTF_N_Count)
+                        {
+                            gFrameSave[GrabCounter] = rawbytes;
+                            GrabCounter++;
+                            OTF_Struce oTF_Struce = new OTF_Struce();
+                            oTF_Struce.data = rawbytes;
+                            oTF_Struce.time = tim;
+                            counts_time.Add(oTF_Struce);
+
+                        }
+
+                        if (gFrame == null) gFrame = rawbytes;
+                    }
+                    else
+                    {
+                        //Thread.Sleep(1);
                     }
 
-                    if (gFrame == null) gFrame = rawbytes;
+                    
 
-                    /*for (int i = 0; i < 5; i++)
-                        Console.WriteLine(string.Format("rawbytes[{0}] = 0x{1}", i, rawbytes[i].ToString("X")));*/
-                    //frameStatus = FrameStatus.READY;
-                    //}
-                    //else
-                    //{
-                    //Thread.Sleep(1);
-                    //}
-                }
-                else
+                } while (gPollingFlag);
+                stopwatch.Stop();
+                stopwatch = null;
+            }
+            else
+            {
+                do
                 {
-                    //Thread.Sleep(1);
-                }
+                    var rawbytes = Factory.GetUsbBase().GetRawPixels();
+                    if (rawbytes != null)
+                    {
+                        //GrabCounter++;
+                        //Console.WriteLine("GrabCounter = " + GrabCounter);
+                        //if (frameStatus == FrameStatus.EMPTY)
+                        //{
+                        //gFrame = null;
+                        if (GrabCounter < gFrameSave.Length)
+                        {
+                            gFrameSave[GrabCounter] = rawbytes;
+                            GrabCounter++;
+                        }
 
-                /*if (GrabCount != 0 && GrabCount == GrabCounter)
-                {
-                    KickStart();
-                    GrabCounter = 0;
-                }*/
+                        if (gFrame == null) gFrame = rawbytes;
 
-            } while (gPollingFlag);
+                        /*for (int i = 0; i < 5; i++)
+                            Console.WriteLine(string.Format("rawbytes[{0}] = 0x{1}", i, rawbytes[i].ToString("X")));*/
+                        //frameStatus = FrameStatus.READY;
+                        //}
+                        //else
+                        //{
+                        //Thread.Sleep(1);
+                        //}
+                    }
+                    else
+                    {
+                        //Thread.Sleep(1);
+                    }
+
+                    /*if (GrabCount != 0 && GrabCount == GrabCounter)
+                    {
+                        KickStart();
+                        GrabCounter = 0;
+                    }*/
+
+                } while (gPollingFlag);
+            }
+            
         }
 
         public void Stop()
         {
+            IsOTFChanges = false;
             var dtNow = DateTime.Now;
             ReadRegister(0, out var reg);
             byte tcon_state = (byte)(reg & 0x30);

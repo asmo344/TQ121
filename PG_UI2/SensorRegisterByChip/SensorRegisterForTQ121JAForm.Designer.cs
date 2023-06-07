@@ -116,6 +116,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.Button_roiSet = new System.Windows.Forms.Button();
             this.Button_roiGet = new System.Windows.Forms.Button();
+            this.button_GrpUpd = new System.Windows.Forms.Button();
             this.GroupBox_Setup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_Intg)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_Ofst)).BeginInit();
@@ -179,7 +180,7 @@
             "63"});
             this.comboBox_Gain.Location = new System.Drawing.Point(84, 47);
             this.comboBox_Gain.Name = "comboBox_Gain";
-            this.comboBox_Gain.Size = new System.Drawing.Size(75, 20);
+            this.comboBox_Gain.Size = new System.Drawing.Size(75, 23);
             this.comboBox_Gain.TabIndex = 78;
             // 
             // Label_OfstDn
@@ -187,7 +188,7 @@
             this.Label_OfstDn.AutoSize = true;
             this.Label_OfstDn.Location = new System.Drawing.Point(164, 76);
             this.Label_OfstDn.Name = "Label_OfstDn";
-            this.Label_OfstDn.Size = new System.Drawing.Size(41, 12);
+            this.Label_OfstDn.Size = new System.Drawing.Size(43, 15);
             this.Label_OfstDn.TabIndex = 77;
             this.Label_OfstDn.Text = "(0 DN)";
             // 
@@ -196,7 +197,7 @@
             this.Label_ExpoMs.AutoSize = true;
             this.Label_ExpoMs.Location = new System.Drawing.Point(165, 26);
             this.Label_ExpoMs.Name = "Label_ExpoMs";
-            this.Label_ExpoMs.Size = new System.Drawing.Size(41, 12);
+            this.Label_ExpoMs.Size = new System.Drawing.Size(42, 15);
             this.Label_ExpoMs.TabIndex = 76;
             this.Label_ExpoMs.Text = "(0 ms)";
             // 
@@ -225,7 +226,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(24, 50);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(59, 12);
+            this.label5.Size = new System.Drawing.Size(56, 15);
             this.label5.TabIndex = 2;
             this.label5.Text = "Gain 32 /";
             // 
@@ -240,7 +241,7 @@
             0,
             0});
             this.NumericUpDown_Intg.Name = "NumericUpDown_Intg";
-            this.NumericUpDown_Intg.Size = new System.Drawing.Size(100, 22);
+            this.NumericUpDown_Intg.Size = new System.Drawing.Size(100, 21);
             this.NumericUpDown_Intg.TabIndex = 1;
             // 
             // label4
@@ -248,7 +249,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 26);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(47, 12);
+            this.label4.Size = new System.Drawing.Size(43, 15);
             this.label4.TabIndex = 0;
             this.label4.Text = "Intg 0x";
             // 
@@ -267,7 +268,7 @@
             0,
             -2147483648});
             this.NumericUpDown_Ofst.Name = "NumericUpDown_Ofst";
-            this.NumericUpDown_Ofst.Size = new System.Drawing.Size(99, 22);
+            this.NumericUpDown_Ofst.Size = new System.Drawing.Size(99, 21);
             this.NumericUpDown_Ofst.TabIndex = 1;
             // 
             // label9
@@ -275,7 +276,7 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(12, 74);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(41, 12);
+            this.label9.Size = new System.Drawing.Size(38, 15);
             this.label9.TabIndex = 0;
             this.label9.Text = "Offset";
             // 
@@ -330,7 +331,7 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(252, 13);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(23, 12);
+            this.label8.Size = new System.Drawing.Size(20, 15);
             this.label8.TabIndex = 72;
             this.label8.Text = "[7]";
             // 
@@ -339,7 +340,7 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(357, 13);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(23, 12);
+            this.label7.Size = new System.Drawing.Size(20, 15);
             this.label7.TabIndex = 71;
             this.label7.Text = "[0]";
             // 
@@ -441,7 +442,7 @@
             0,
             0});
             this.NumericUpDown_Value.Name = "NumericUpDown_Value";
-            this.NumericUpDown_Value.Size = new System.Drawing.Size(50, 22);
+            this.NumericUpDown_Value.Size = new System.Drawing.Size(50, 21);
             this.NumericUpDown_Value.TabIndex = 5;
             this.NumericUpDown_Value.ValueChanged += new System.EventHandler(this.NumericUpDown_Value_ValueChanged);
             this.NumericUpDown_Value.KeyUp += new System.Windows.Forms.KeyEventHandler(this.NumericUpDown_Value_ValueChanged);
@@ -451,7 +452,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(137, 21);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 12);
+            this.label3.Size = new System.Drawing.Size(54, 15);
             this.label3.TabIndex = 4;
             this.label3.Text = "Value 0x";
             // 
@@ -465,7 +466,7 @@
             0,
             0});
             this.NumericUpDown_Address.Name = "NumericUpDown_Address";
-            this.NumericUpDown_Address.Size = new System.Drawing.Size(50, 22);
+            this.NumericUpDown_Address.Size = new System.Drawing.Size(50, 21);
             this.NumericUpDown_Address.TabIndex = 3;
             // 
             // label2
@@ -473,7 +474,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(10, 21);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(65, 12);
+            this.label2.Size = new System.Drawing.Size(67, 15);
             this.label2.TabIndex = 2;
             this.label2.Text = "Address 0x";
             // 
@@ -489,6 +490,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage1.Controls.Add(this.button_GrpUpd);
             this.tabPage1.Controls.Add(this.label24);
             this.tabPage1.Controls.Add(this.ComboBox_SpiMode);
             this.tabPage1.Controls.Add(this.ComboBox_MIC24045Device);
@@ -504,10 +506,10 @@
             this.tabPage1.Controls.Add(this.checkBox_debug);
             this.tabPage1.Controls.Add(this.groupBoxAE);
             this.tabPage1.Controls.Add(this.groupBox1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(884, 307);
+            this.tabPage1.Size = new System.Drawing.Size(884, 305);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "TQ121J Engineer";
             // 
@@ -516,7 +518,7 @@
             this.label24.AutoSize = true;
             this.label24.Location = new System.Drawing.Point(5, 273);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(101, 12);
+            this.label24.Size = new System.Drawing.Size(108, 15);
             this.label24.TabIndex = 54;
             this.label24.Text = "MIC24045 Voltage";
             // 
@@ -525,7 +527,7 @@
             this.ComboBox_SpiMode.FormattingEnabled = true;
             this.ComboBox_SpiMode.Location = new System.Drawing.Point(696, 19);
             this.ComboBox_SpiMode.Name = "ComboBox_SpiMode";
-            this.ComboBox_SpiMode.Size = new System.Drawing.Size(121, 20);
+            this.ComboBox_SpiMode.Size = new System.Drawing.Size(121, 23);
             this.ComboBox_SpiMode.TabIndex = 66;
             this.ComboBox_SpiMode.SelectedIndexChanged += new System.EventHandler(this.ComboBox_SpiMode_SelectedIndexChanged);
             // 
@@ -534,7 +536,7 @@
             this.ComboBox_MIC24045Device.FormattingEnabled = true;
             this.ComboBox_MIC24045Device.Location = new System.Drawing.Point(112, 269);
             this.ComboBox_MIC24045Device.Name = "ComboBox_MIC24045Device";
-            this.ComboBox_MIC24045Device.Size = new System.Drawing.Size(150, 20);
+            this.ComboBox_MIC24045Device.Size = new System.Drawing.Size(150, 23);
             this.ComboBox_MIC24045Device.TabIndex = 57;
             // 
             // label23
@@ -542,7 +544,7 @@
             this.label23.AutoSize = true;
             this.label23.Location = new System.Drawing.Point(637, 23);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(53, 12);
+            this.label23.Size = new System.Drawing.Size(61, 15);
             this.label23.TabIndex = 65;
             this.label23.Text = "SPI Mode";
             // 
@@ -561,7 +563,7 @@
             0,
             0});
             this.NumericUpDown_MIC24045Voltage.Name = "NumericUpDown_MIC24045Voltage";
-            this.NumericUpDown_MIC24045Voltage.Size = new System.Drawing.Size(50, 22);
+            this.NumericUpDown_MIC24045Voltage.Size = new System.Drawing.Size(50, 21);
             this.NumericUpDown_MIC24045Voltage.TabIndex = 55;
             // 
             // Button_MIC24045Get
@@ -642,7 +644,7 @@
             this.checkBox_debug.AutoSize = true;
             this.checkBox_debug.Location = new System.Drawing.Point(6, 237);
             this.checkBox_debug.Name = "checkBox_debug";
-            this.checkBox_debug.Size = new System.Drawing.Size(96, 16);
+            this.checkBox_debug.Size = new System.Drawing.Size(102, 19);
             this.checkBox_debug.TabIndex = 61;
             this.checkBox_debug.Text = "SaveAllFrame";
             this.checkBox_debug.UseVisualStyleBackColor = true;
@@ -683,7 +685,7 @@
             this.label19.AutoSize = true;
             this.label19.Location = new System.Drawing.Point(78, 127);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(77, 12);
+            this.label19.Size = new System.Drawing.Size(78, 15);
             this.label19.TabIndex = 54;
             this.label19.Text = "Led Cur Step";
             this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -693,7 +695,7 @@
             this.label18.AutoSize = true;
             this.label18.Location = new System.Drawing.Point(78, 194);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(47, 12);
+            this.label18.Size = new System.Drawing.Size(56, 15);
             this.label18.TabIndex = 50;
             this.label18.Text = "Mean Th";
             this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -707,7 +709,7 @@
             0,
             0});
             this.numericUpDown_ledCurStep.Name = "numericUpDown_ledCurStep";
-            this.numericUpDown_ledCurStep.Size = new System.Drawing.Size(66, 22);
+            this.numericUpDown_ledCurStep.Size = new System.Drawing.Size(66, 21);
             this.numericUpDown_ledCurStep.TabIndex = 53;
             // 
             // numericUpDown_MeanTh
@@ -719,7 +721,7 @@
             0,
             0});
             this.numericUpDown_MeanTh.Name = "numericUpDown_MeanTh";
-            this.numericUpDown_MeanTh.Size = new System.Drawing.Size(66, 22);
+            this.numericUpDown_MeanTh.Size = new System.Drawing.Size(66, 21);
             this.numericUpDown_MeanTh.TabIndex = 49;
             // 
             // label17
@@ -727,7 +729,7 @@
             this.label17.AutoSize = true;
             this.label17.Location = new System.Drawing.Point(78, 173);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(71, 12);
+            this.label17.Size = new System.Drawing.Size(77, 15);
             this.label17.TabIndex = 48;
             this.label17.Text = "Mean Target";
             this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -741,7 +743,7 @@
             0,
             0});
             this.numericUpDown_MeanTarget.Name = "numericUpDown_MeanTarget";
-            this.numericUpDown_MeanTarget.Size = new System.Drawing.Size(66, 22);
+            this.numericUpDown_MeanTarget.Size = new System.Drawing.Size(66, 21);
             this.numericUpDown_MeanTarget.TabIndex = 47;
             // 
             // label20
@@ -749,7 +751,7 @@
             this.label20.AutoSize = true;
             this.label20.Location = new System.Drawing.Point(78, 60);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(59, 12);
+            this.label20.Size = new System.Drawing.Size(63, 15);
             this.label20.TabIndex = 52;
             this.label20.Text = "Expo Step";
             this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -763,7 +765,7 @@
             0,
             0});
             this.numericUpDown_expoStep.Name = "numericUpDown_expoStep";
-            this.numericUpDown_expoStep.Size = new System.Drawing.Size(66, 22);
+            this.numericUpDown_expoStep.Size = new System.Drawing.Size(66, 21);
             this.numericUpDown_expoStep.TabIndex = 51;
             // 
             // label16
@@ -771,7 +773,7 @@
             this.label16.AutoSize = true;
             this.label16.Location = new System.Drawing.Point(78, 151);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(71, 12);
+            this.label16.Size = new System.Drawing.Size(81, 15);
             this.label16.TabIndex = 46;
             this.label16.Text = "Ready Frame";
             this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -785,7 +787,7 @@
             0,
             0});
             this.numericUpDown_ReadyFrame.Name = "numericUpDown_ReadyFrame";
-            this.numericUpDown_ReadyFrame.Size = new System.Drawing.Size(66, 22);
+            this.numericUpDown_ReadyFrame.Size = new System.Drawing.Size(66, 21);
             this.numericUpDown_ReadyFrame.TabIndex = 45;
             // 
             // label12
@@ -793,7 +795,7 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(78, 105);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(71, 12);
+            this.label12.Size = new System.Drawing.Size(74, 15);
             this.label12.TabIndex = 44;
             this.label12.Text = "Led Cur Min";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -807,7 +809,7 @@
             0,
             0});
             this.numericUpDown_ledCurMin.Name = "numericUpDown_ledCurMin";
-            this.numericUpDown_ledCurMin.Size = new System.Drawing.Size(66, 22);
+            this.numericUpDown_ledCurMin.Size = new System.Drawing.Size(66, 21);
             this.numericUpDown_ledCurMin.TabIndex = 43;
             // 
             // numericUpDown_ledCurMax
@@ -819,7 +821,7 @@
             0,
             0});
             this.numericUpDown_ledCurMax.Name = "numericUpDown_ledCurMax";
-            this.numericUpDown_ledCurMax.Size = new System.Drawing.Size(66, 22);
+            this.numericUpDown_ledCurMax.Size = new System.Drawing.Size(66, 21);
             this.numericUpDown_ledCurMax.TabIndex = 42;
             // 
             // label15
@@ -827,7 +829,7 @@
             this.label15.AutoSize = true;
             this.label15.Location = new System.Drawing.Point(78, 83);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(71, 12);
+            this.label15.Size = new System.Drawing.Size(77, 15);
             this.label15.TabIndex = 41;
             this.label15.Text = "Led Cur Max";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -848,7 +850,7 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(78, 40);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(53, 12);
+            this.label10.Size = new System.Drawing.Size(59, 15);
             this.label10.TabIndex = 38;
             this.label10.Text = "Expo Min";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -872,7 +874,7 @@
             0,
             0});
             this.numericUpDown_expoMin.Name = "numericUpDown_expoMin";
-            this.numericUpDown_expoMin.Size = new System.Drawing.Size(66, 22);
+            this.numericUpDown_expoMin.Size = new System.Drawing.Size(66, 21);
             this.numericUpDown_expoMin.TabIndex = 37;
             // 
             // numericUpDown_expoMax
@@ -884,7 +886,7 @@
             0,
             0});
             this.numericUpDown_expoMax.Name = "numericUpDown_expoMax";
-            this.numericUpDown_expoMax.Size = new System.Drawing.Size(66, 22);
+            this.numericUpDown_expoMax.Size = new System.Drawing.Size(66, 21);
             this.numericUpDown_expoMax.TabIndex = 36;
             // 
             // label11
@@ -892,7 +894,7 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(78, 19);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(53, 12);
+            this.label11.Size = new System.Drawing.Size(62, 15);
             this.label11.TabIndex = 35;
             this.label11.Text = "Expo Max";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -902,7 +904,7 @@
             this.checkBoxAE.AutoSize = true;
             this.checkBoxAE.Location = new System.Drawing.Point(6, 14);
             this.checkBoxAE.Name = "checkBoxAE";
-            this.checkBoxAE.Size = new System.Drawing.Size(60, 16);
+            this.checkBoxAE.Size = new System.Drawing.Size(65, 19);
             this.checkBoxAE.TabIndex = 0;
             this.checkBoxAE.Text = "Enable";
             this.checkBoxAE.UseVisualStyleBackColor = true;
@@ -947,7 +949,7 @@
             0,
             0});
             this.NumericUpDown_OutWinH.Name = "NumericUpDown_OutWinH";
-            this.NumericUpDown_OutWinH.Size = new System.Drawing.Size(40, 22);
+            this.NumericUpDown_OutWinH.Size = new System.Drawing.Size(40, 21);
             this.NumericUpDown_OutWinH.TabIndex = 89;
             // 
             // NumericUpDown_OutWinW
@@ -959,7 +961,7 @@
             0,
             0});
             this.NumericUpDown_OutWinW.Name = "NumericUpDown_OutWinW";
-            this.NumericUpDown_OutWinW.Size = new System.Drawing.Size(40, 22);
+            this.NumericUpDown_OutWinW.Size = new System.Drawing.Size(40, 21);
             this.NumericUpDown_OutWinW.TabIndex = 88;
             // 
             // NumericUpDown_OutWinY
@@ -971,7 +973,7 @@
             0,
             0});
             this.NumericUpDown_OutWinY.Name = "NumericUpDown_OutWinY";
-            this.NumericUpDown_OutWinY.Size = new System.Drawing.Size(40, 22);
+            this.NumericUpDown_OutWinY.Size = new System.Drawing.Size(40, 21);
             this.NumericUpDown_OutWinY.TabIndex = 87;
             // 
             // NumericUpDown_OutWinX
@@ -983,7 +985,7 @@
             0,
             0});
             this.NumericUpDown_OutWinX.Name = "NumericUpDown_OutWinX";
-            this.NumericUpDown_OutWinX.Size = new System.Drawing.Size(40, 22);
+            this.NumericUpDown_OutWinX.Size = new System.Drawing.Size(40, 21);
             this.NumericUpDown_OutWinX.TabIndex = 86;
             // 
             // label25
@@ -991,7 +993,7 @@
             this.label25.AutoSize = true;
             this.label25.Location = new System.Drawing.Point(5, 47);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(59, 24);
+            this.label25.Size = new System.Drawing.Size(51, 30);
             this.label25.TabIndex = 85;
             this.label25.Text = "OutWin\r\n(x,y,w,h)";
             this.label25.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1022,7 +1024,7 @@
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(3, 167);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(149, 12);
+            this.label14.Size = new System.Drawing.Size(134, 15);
             this.label14.TabIndex = 82;
             this.label14.Text = "(Max Ofst = 0, Step = 0)";
             // 
@@ -1031,7 +1033,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(6, 113);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(59, 12);
+            this.label6.Size = new System.Drawing.Size(59, 15);
             this.label6.TabIndex = 34;
             this.label6.Text = "Led1 Ofst";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1041,7 +1043,7 @@
             this.label21.AutoSize = true;
             this.label21.Location = new System.Drawing.Point(106, 146);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(41, 12);
+            this.label21.Size = new System.Drawing.Size(43, 15);
             this.label21.TabIndex = 81;
             this.label21.Text = "(0 DN)";
             // 
@@ -1071,7 +1073,7 @@
             0,
             -2147483648});
             this.numericUpDownOfst.Name = "numericUpDownOfst";
-            this.numericUpDownOfst.Size = new System.Drawing.Size(50, 22);
+            this.numericUpDownOfst.Size = new System.Drawing.Size(50, 21);
             this.numericUpDownOfst.TabIndex = 80;
             this.numericUpDownOfst.ValueChanged += new System.EventHandler(this.numericUpDownOfst_ValueChanged);
             // 
@@ -1090,7 +1092,7 @@
             this.label22.AutoSize = true;
             this.label22.Location = new System.Drawing.Point(5, 146);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(41, 12);
+            this.label22.Size = new System.Drawing.Size(38, 15);
             this.label22.TabIndex = 79;
             this.label22.Text = "Offset";
             // 
@@ -1108,7 +1110,7 @@
             0,
             -2147483648});
             this.NumericUpDown_Led1.Name = "NumericUpDown_Led1";
-            this.NumericUpDown_Led1.Size = new System.Drawing.Size(50, 22);
+            this.NumericUpDown_Led1.Size = new System.Drawing.Size(50, 21);
             this.NumericUpDown_Led1.TabIndex = 31;
             // 
             // NumericUpDown_Led0
@@ -1120,7 +1122,7 @@
             0,
             0});
             this.NumericUpDown_Led0.Name = "NumericUpDown_Led0";
-            this.NumericUpDown_Led0.Size = new System.Drawing.Size(50, 22);
+            this.NumericUpDown_Led0.Size = new System.Drawing.Size(50, 21);
             this.NumericUpDown_Led0.TabIndex = 30;
             // 
             // label1
@@ -1128,7 +1130,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 89);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 12);
+            this.label1.Size = new System.Drawing.Size(38, 15);
             this.label1.TabIndex = 29;
             this.label1.Text = "Led0 ";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1142,7 +1144,7 @@
             0,
             0});
             this.NumericUpDown_RoiH.Name = "NumericUpDown_RoiH";
-            this.NumericUpDown_RoiH.Size = new System.Drawing.Size(40, 22);
+            this.NumericUpDown_RoiH.Size = new System.Drawing.Size(40, 21);
             this.NumericUpDown_RoiH.TabIndex = 28;
             // 
             // NumericUpDown_RoiY
@@ -1154,7 +1156,7 @@
             0,
             0});
             this.NumericUpDown_RoiY.Name = "NumericUpDown_RoiY";
-            this.NumericUpDown_RoiY.Size = new System.Drawing.Size(40, 22);
+            this.NumericUpDown_RoiY.Size = new System.Drawing.Size(40, 21);
             this.NumericUpDown_RoiY.TabIndex = 26;
             // 
             // label13
@@ -1162,7 +1164,7 @@
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(5, 19);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(41, 24);
+            this.label13.Size = new System.Drawing.Size(33, 30);
             this.label13.TabIndex = 19;
             this.label13.Text = "ROI\r\n(y, h)";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1188,16 +1190,26 @@
             this.Button_roiGet.UseVisualStyleBackColor = true;
             this.Button_roiGet.Click += new System.EventHandler(this.Button_SetupGetEngineer_Click);
             // 
+            // button_GrpUpd
+            // 
+            this.button_GrpUpd.Location = new System.Drawing.Point(671, 107);
+            this.button_GrpUpd.Name = "button_GrpUpd";
+            this.button_GrpUpd.Size = new System.Drawing.Size(75, 23);
+            this.button_GrpUpd.TabIndex = 9;
+            this.button_GrpUpd.Text = "GrpUpd";
+            this.button_GrpUpd.UseVisualStyleBackColor = true;
+            this.button_GrpUpd.Click += new System.EventHandler(this.button_GrpUpd_Click);
+            // 
             // SensorRegisterForTQ121JAForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(916, 550);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.GroupBox_Demo);
-            this.Font = new System.Drawing.Font("標楷體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.Name = "SensorRegisterForTQ121JAForm";
@@ -1329,5 +1341,6 @@
         private System.Windows.Forms.NumericUpDown NumericUpDown_OutWinY;
         private System.Windows.Forms.NumericUpDown NumericUpDown_OutWinX;
         private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Button button_GrpUpd;
     }
 }
