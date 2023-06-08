@@ -178,7 +178,7 @@ namespace PG_UI2
 
         private void MeanvsTime_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (Start_button.Text.Equals("Start"))
+            if (Start_button.Text.Equals("Stop"))
             {
                 Start_button_Click(sender, e);
             }
