@@ -750,6 +750,13 @@ namespace Tyrafos.OpticalSensor
 
         public void Stop()
         {
+            gCaptureThread?.Wait(100);
+            Factory.GetUsbBase().Stop();
+            gPollingFlag = false;
+            //frameStatus = FrameStatus.EMPTY;
+            gFrame = null;
+            //gIsKicked = false;
+            
             IsOTFChanges = false;
             var dtNow = DateTime.Now;
             ReadRegister(0, out var reg);
@@ -761,12 +768,7 @@ namespace Tyrafos.OpticalSensor
             Thread.Sleep(5);
             Reset(RstMode.TconRst);
 
-            gCaptureThread?.Wait(100);
-            Factory.GetUsbBase().Stop();
-            gPollingFlag = false;
-            //frameStatus = FrameStatus.EMPTY;
-            gFrame = null;
-            //gIsKicked = false;
+            
 
             if (DebugLog)
             {
