@@ -445,5 +445,13 @@ namespace PG_UI2.SensorRegisterByChip
             Tyrafos.DeviceControl.MIC24045.SetEnableStatus(device, enable);
             NumericUpDown_MIC24045Voltage.Value = enable ? (decimal)Tyrafos.DeviceControl.MIC24045.GetVoltage(device) : 0;
         }
+
+        private void button_GrpUpd_Click(object sender, EventArgs e)
+        {
+            if (!_op.IsNull() && _op is Tyrafos.OpticalSensor.TQ121JA tq121j)
+            {
+                tq121j.GrpUpd();
+            }
+        }
     }
 }

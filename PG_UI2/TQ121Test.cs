@@ -220,22 +220,29 @@ namespace PG_UI2
                     for (int H = 1; H <= 1; H++)
                     {
                         tq121.SetSize(new Size(64, H));
+
+
+
                         for (int W = 4; W <= Width_max; W += 4)
                         {
                             bool faultResult = true;
                             this.progressBar.CustomText = string.Format("{0}x{1},({2},{3})", W, H, 0, 0);
+
                             this.progressBar.Refresh();
+
                             tq121.SetOutWinSize(new Size(W, H));
                             tq121.Play();
                             Bitmap[] BMP = new Bitmap[3];
                             for (int i = 0; i < 3; i++)
                             {
+
                                 tq121.TryGetFrame (out var data);
                                 if (data.IsNull()|| data.Height == 0 || data.Width == 0)
                                 {
                                     faultResult = false;
                                     break;
                                    
+
                                 }
                                 for (int dh = 0; dh < data.Size.Height; dh++)
                                 {
@@ -250,7 +257,9 @@ namespace PG_UI2
                                             if (data.Pixels[dh * data.Size.Width + dw] != dh * Width_max + dw)
                                             {
                                                 faultResult = false;
+
                                                 break;
+
                                             }
                                         }
                                         else
@@ -258,7 +267,9 @@ namespace PG_UI2
                                             if (data.Pixels[dh * data.Size.Width + dw] != (1023 - ((dh - 16) * Width_max + dw)))
                                             {
                                                 faultResult = false;
+
                                                 break;
+
                                             }
                                         }
 
@@ -639,6 +650,7 @@ namespace PG_UI2
                 header.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                 int rowIdx = 2;
 
+
                 int bmpcount = 0;
                 //每筆資料欄位起始位置
                 int conlumnIndex = 1;
@@ -674,6 +686,7 @@ namespace PG_UI2
                                         
                                         // Save image to stream.
                                         bitmap.Save(stream, ImageFormat.Bmp);
+
 
                                         // add picture and move 
                                         IXLPicture logo = OTF_sheet.AddPicture(stream, XLPictureFormat.Bmp, bmpcount.ToString());
@@ -830,12 +843,14 @@ namespace PG_UI2
                 }
                 if (OTF_Window_checkbox.Checked)
                 {
-                    if (string.IsNullOrEmpty(Out_window_num.Text))
+
+                    if (string.IsNullOrEmpty(OTF_num.Text))
                     {
                         MessageBox.Show("OTF Window number is empty");
                         return;
                     }
-                    NumMax = Int32.Parse(Out_window_num.Text);
+
+                    NumMax = Int32.Parse(OTF_num.Text);
                     OTFTestFlow();
                 }
 
@@ -845,7 +860,8 @@ namespace PG_UI2
                 MessageBox.Show("Please check at least one test!!!");
                 return;
             }
-            string basedir = Global.DataDirectory + "\\TQ121J"+"\\Test_Report\\";
+
+            string basedir = "TQ121_Test_Report\\";
             if (!Directory.Exists(basedir))
                 Directory.CreateDirectory(basedir);
             string filepath = $@"{DateTime.Now.ToString("yyyyMMddHHmmss")}.xlsx";
@@ -854,12 +870,13 @@ namespace PG_UI2
             var xlsx = Export();
             //存檔至指定位置
             xlsx.SaveAs(filepath);
-            //string str = Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory() + "\\" + filepath);
+
+            string str = Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory() + "\\" + filepath);
             //string completemessage = string.Format("Test Complete , Report Save at:{0}", str + filepath);
             //MessageBox.Show(completemessage);
-            string completemessage = string.Format("Test Complete , Report Save at:{0}", filepath);
+            string completemessage = string.Format("Test Complete , Report Save at:{0}", str);
             MessageBox.Show(completemessage);
-            System.Diagnostics.Process.Start("Explorer.exe", basedir);
+            System.Diagnostics.Process.Start("Explorer.exe", str);
 
         }
 
