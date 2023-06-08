@@ -587,6 +587,12 @@
     <Compile Include="TimingGui.designer.cs">
       <DependentUpon>TimingGui.cs</DependentUpon>
     </Compile>
+    <Compile Include="TQ121Test.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TQ121Test.designer.cs">
+      <DependentUpon>TQ121Test.cs</DependentUpon>
+    </Compile>
     <Compile Include="TwoD_HDR_Demo_Form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -804,6 +810,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TimingGui.resx">
       <DependentUpon>TimingGui.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TQ121Test.resx">
+      <DependentUpon>TQ121Test.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TwoD_HDR_Demo_Form.resx">
       <DependentUpon>TwoD_HDR_Demo_Form.cs</DependentUpon>

@@ -88,6 +88,8 @@ namespace PG_UI2
 
         private TY7806Test tY7806Test;
 
+        private TQ121Test tq121Test;
+
         private DvsOfflineShowForm dVSShowForm;
 
         public MainForm()
@@ -2116,7 +2118,7 @@ namespace PG_UI2
         private void OptionForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
-            ((Form)sender).Hide();
+            ((System.Windows.Forms.Form)sender).Hide();
         }
 
         private void Zoom_MouseClick(object sender, MouseEventArgs e)
@@ -2406,6 +2408,24 @@ namespace PG_UI2
         {
             twoD_HDR_Demo_Form?.Dispose();
             twoD_HDR_Demo_Form = null;
+        }
+
+        private void TQ121ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (tq121Test == null)
+            {
+                tq121Test = new TQ121Test(core);
+                tq121Test.Show();
+                tq121Test.FormClosed += TQ121TestForm_Closed;
+            }
+        }
+        private void TQ121TestForm_Closed(object sender, FormClosedEventArgs e)
+        {
+            if (tq121Test == null)
+                return;
+
+            tq121Test.Dispose();
+            tq121Test = null;
         }
     }
 
