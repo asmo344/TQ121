@@ -224,7 +224,8 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
@@ -323,6 +324,12 @@
     </Compile>
     <Compile Include="ECLNewFlowForm.designer.cs">
       <DependentUpon>ECLNewFlowForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MeanvsTime.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MeanvsTime.Designer.cs">
+      <DependentUpon>MeanvsTime.cs</DependentUpon>
     </Compile>
     <Compile Include="HistogramForm.cs">
       <SubType>Form</SubType>
@@ -670,6 +677,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ECLNewFlowForm.resx">
       <DependentUpon>ECLNewFlowForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MeanvsTime.resx">
+      <DependentUpon>MeanvsTime.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HistogramForm.resx">
       <DependentUpon>HistogramForm.cs</DependentUpon>
